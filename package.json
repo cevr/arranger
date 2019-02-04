@@ -1,0 +1,96 @@
+{
+  "name": "recompose-build",
+  "private": true,
+  "author": "Andrew Clark <acdlite@me.com>",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/acdlite/recompose.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint scripts src",
+    "build:recompose": "cross-env PACKAGE_NAME=recompose rollup --config scripts/rollup.config.js",
+    "test": "jest && flow check && cross-env SNAPSHOT=match npm run build:recompose",
+    "test:watch": "cross-env BABEL_ENV=cjs jest --watch",
+    "release": "node scripts/release.js",
+    "postinstall": "node scripts/installNestedPackageDeps.js",
+    "format": "prettier --semi false --trailing-comma es5 --single-quote --write 'scripts/*.js' 'src/packages/*/*.js' 'src/packages/*/!(node_modules)/**/*.js'",
+    "precommit": "lint-staged",
+    "prepush": "yarn test"
+  },
+  "jest": {
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*-test.js"
+    ],
+    "coverageReporters": [
+      "text-summary",
+      "lcov"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/scripts/jest.setup.js"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --semi false --trailing-comma es5 --single-quote --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^9.0.0",
+    "babel-jest": "^22.4.3",
+    "baconjs": "^0.7.84",
+    "chalk": "^1.1.1",
+    "change-case": "^2.3.1",
+    "codecov": "^1.0.1",
+    "create-react-class": "^15.5.0",
+    "cross-env": "^4.0.0",
+    "enzyme": "^3.3.0",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-prettier": "^2.0.1",
+    "eslint-plugin-react": "^7.10.0",
+    "flow-bin": "^0.72.0",
+    "flyd": "^0.2.4",
+    "husky": "^0.13.3",
+    "jest": "^22.4.3",
+    "kefir": "^3.2.3",
+    "lint-staged": "^3.4.0",
+    "most": "^1.0.2",
+    "prettier": "^1.2.2",
+    "prop-types": "^15.6.1",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "readline-sync": "^1.2.21",
+    "rollup": "^0.65.0",
+    "rollup-plugin-babel": "^4.0.1",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-size-snapshot": "^0.6.1",
+    "rollup-plugin-uglify": "^4.0.0",
+    "rx": "^4.1.0",
+    "rxjs": "^5.0.0",
+    "shelljs": "^0.6.0",
+    "sinon": "^1.17.1",
+    "webpack": "^2.4.1",
+    "xstream": "^5.0.5"
+  },
+  "devEngines": {
+    "node": "5.x",
+    "npm": "3.x"
+  },
+  "dependencies": {
+    "enzyme-adapter-react-16": "^1.1.1"
+  }
+}

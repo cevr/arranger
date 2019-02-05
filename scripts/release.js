@@ -124,7 +124,7 @@ try {
     cp('-f', 'LICENSE.md', outDir)
 
     log(`Building ${packageName}...`)
-    const runRollup = () => `yarn build:${packageName}`
+    const runRollup = () => `yarn build`
     if (exec(runRollup()).code !== 0) {
         exit(1)
     }

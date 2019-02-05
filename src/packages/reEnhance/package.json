@@ -1,0 +1,21 @@
+{
+  "description": "A React utility belt for function components using React Hooks",
+  "keywords": [
+    "react",
+    "hooks",
+    "react-hooks",
+    "components",
+    "microcomponentization",
+    "toolkit",
+    "utilities",
+    "composition"
+  ],
+  "main": "dist/Recompose.cjs.js",
+  "module": "dist/Recompose.esm.js",
+  "dependencies": {
+    "@babel/runtime": "^7.0.0"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0"
+  }
+}

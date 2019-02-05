@@ -40,7 +40,7 @@ try {
         exit(1)
     }
 
-    const packageNames = ['reEnhance', 're-enhance']
+    const packageNames = ['reEnhance', 're-enhance', 'reenhance']
 
     let packageName = readline.question('Name of package to release: ')
 

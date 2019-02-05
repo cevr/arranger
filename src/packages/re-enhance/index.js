@@ -1,7 +1,7 @@
 // @ts-check
 export { default as compose } from './compose'
 export { default as pipe } from './pipe'
-export { default as useContext } from './useContext'
+export { default as useContextEnhancer } from './useContextEnhancer'
 export { default as useDefaultProps } from './useDefaultProps'
 export { default as useHandlers } from './useHandlers'
 export { default as useLifecycle } from './useLifecycle'

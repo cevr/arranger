@@ -55,7 +55,7 @@ const enhance = compose(
 const EnhancedComponent = enhance(BaseComponent)
 ```
 
-#### Re-enhance
+#### Re-Enhance
 
 ```js
 const useEnhancer = pipe(

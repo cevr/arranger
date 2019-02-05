@@ -11,11 +11,7 @@ const { pascalCase } = require('change-case')
 
 const BIN = './node_modules/.bin'
 
-const {
-    PACKAGES_SRC_DIR,
-    PACKAGES_OUT_DIR,
-    getPackageNames,
-} = require('./getPackageNames')
+const { PACKAGES_SRC_DIR, PACKAGES_OUT_DIR } = require('./getPackageNames')
 
 const BASE_PACKAGE_LOC = '../src/basePackage.json'
 
@@ -45,7 +41,7 @@ try {
         exit(1)
     }
 
-    const packageNames = getPackageNames()
+    const packageNames = ['reEnhance', 're-enhance']
 
     let packageName = readline.question('Name of package to release: ')
 

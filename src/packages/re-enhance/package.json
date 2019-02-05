@@ -15,7 +15,6 @@
     "url": "git+https://github.com/cevr/re-enhance.git"
   },
   "publishConfig": { "registry": "https://registry.npmjs.org/" },
-  "version": "0.1.0",
   "typings": "./index.d.ts",
   "main": "dist/re-enhance.cjs.js",
   "module": "dist/re-enhance.esm.js",

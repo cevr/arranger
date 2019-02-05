@@ -44,7 +44,7 @@ Re-enhance helpers are designed to be composable. It maintains much of the patte
 
 
 
-Recompose
+#Recompose
 
 ```js
 const BaseComponent = props => {...}
@@ -57,7 +57,7 @@ const enhance = compose(
 const EnhancedComponent = enhance(BaseComponent)
 ```
 
-Re-enhance
+#Re-enhance
 
 ```js
 const useEnhancer = pipe(

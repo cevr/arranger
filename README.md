@@ -1,6 +1,6 @@
-## Recompose
+## Re-Enhance
 
-Recompose is a React utility belt for function components and higher-order components. Think of it like lodash for React.
+Re-Enhance is a React utility belt for React hooks. It carries on the work of that Recompose started.
 
 [**Full API documentation**](docs/API.md) - Learn about each helper
 
@@ -40,9 +40,7 @@ import { pipe, usePropMapper, useStateEnhancer /* ... */ } from 're-enhance'
 
 ### Composition
 
-Re-enhance helpers are designed to be composable. It maintains much of the patterns of `recompose` but with a slight change.
-
-
+Re-Enhance helpers are designed to be composable. It maintains much of the patterns of `recompose` but with a slight change.
 
 #Recompose
 

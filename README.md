@@ -15,8 +15,8 @@ yarn add re-enhance
 ## Why
 
 [Dan Abramov - Making Sense of React Hooks](https://dev.to/dan_abramov/making-sense-of-react-hooks-2eib)
-![Code reduction](https://imgur.com/F0hkgSi)
-![Code reduction](https://imgur.com/uEgqO9U)
+![Code Reduction](https://i.imgur.com/F0hkgSi.png)
+![Code Reduction](https://i.imgur.com/F0hkgSi.png)
 
 ## Usage
 

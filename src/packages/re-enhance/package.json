@@ -16,8 +16,8 @@
   },
   "publishConfig": { "registry": "https://registry.npmjs.org/" },
   "typings": "./index.d.ts",
-  "main": "dist/re-enhance.cjs.js",
-  "module": "dist/re-enhance.esm.js",
+  "main": "dist/ReEnhance.cjs.js",
+  "module": "dist/ReEnhance.esm.js",
   "dependencies": {
     "@babel/runtime": "^7.0.0"
   },

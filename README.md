@@ -14,21 +14,11 @@ yarn add re-enhance
 
 ## Why
 
-Forget ES6 classes vs. `createClass()`.
+[Dan Abramov - Making Sense of React Hooks](https://dev.to/dan_abramov/making-sense-of-react-hooks-2eib)
 
-An idiomatic React application consists mostly of function components.
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">ok so - I took dan&#39;s classes/hooks code from react conf, blacked out the &#39;unnecessary&#39; bits, then colour coded bits by &#39;concern&#39;. so much nicer. the effect is amplified in more complex components, where concerns are split and mixed across lifecycle methods. <a href="https://t.co/nPUzQcisFt">pic.twitter.com/nPUzQcisFt</a></p>&mdash; Sunil Pai (@threepointone) <a href="https://twitter.com/threepointone/status/1056594421079261185?ref_src=twsrc%5Etfw">October 28, 2018</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-```js
-const Greeting = props => <p>Hello, {props.name}!</p>
-```
-
-Function components have several key advantages:
-
--   They help prevent abuse of the `setState()` API, favoring props instead.
--   They encourage the ["smart" vs. "dumb" component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
--   They encourage code that is more reusable and modular.
--   They discourage giant, complicated components that do too many things.
--   They allow React to make performance optimizations by avoiding unnecessary checks and memory allocations.
 
 ## Usage
 

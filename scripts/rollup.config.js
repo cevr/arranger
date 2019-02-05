@@ -17,8 +17,6 @@ const input = `./${path.join(PACKAGES_SRC_DIR, packageName, 'index.js')}`
 
 const outDir = path.join(PACKAGES_OUT_DIR, packageName, 'dist')
 
-const isExternal = id => !id.startsWith('.') && !id.startsWith('/')
-
 const getBabelOptions = ({ useESModules }) => ({
     exclude: '**/node_modules',
     runtimeHelpers: true,
@@ -71,7 +69,7 @@ export default [
             file: `${outDir}/${libraryName}.cjs.js`,
             format: 'cjs',
         },
-        external: isExternal,
+        external: external(),
         plugins: [babel(getBabelOptions({ useESModules: false }))],
     },
 
@@ -81,7 +79,7 @@ export default [
             file: `${outDir}/${libraryName}.esm.js`,
             format: 'es',
         },
-        external: isExternal,
+        external: external(),
         plugins: [babel(getBabelOptions({ useESModules: true }))],
     },
 ]

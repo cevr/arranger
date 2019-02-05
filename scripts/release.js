@@ -40,16 +40,7 @@ try {
         exit(1)
     }
 
-    const packageNames = ['reEnhance', 're-enhance', 'reenhance']
-
-    let packageName = readline.question('Name of package to release: ')
-
-    while (!packageNames.includes(packageName)) {
-        packageName = readline.question(
-            `The package "${packageName}" does not exist in this project. ` +
-                'Choose again: ',
-        )
-    }
+    const packageName = 're-enhance'
 
     const versionLoc = path.resolve(PACKAGES_SRC_DIR, packageName, 'VERSION')
     const version = fs.readFileSync(versionLoc, 'utf8').trim()

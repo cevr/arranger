@@ -1,7 +1,7 @@
-export = reenhance
-export as namespace reenhance
+export = reEnhance
+export as namespace reEnhance
 
-declare namespace reenhance {
+declare namespace reEnhance {
     interface Static {
         compose<V0, T1>(fn0: (x0: V0) => T1): (x0: V0) => T1
         compose<V0, V1, T1>(fn0: (x0: V0, x1: V1) => T1): (x0: V0, x1: V1) => T1

@@ -4,6 +4,7 @@ import useLegacyState from './utils/useLegacyState'
 import mapValues from './utils/mapValues'
 
 /**
+ *
  * @param {any} initialValue
  * @param {Object} handlers
  * @returns {Object}
@@ -22,10 +23,10 @@ const useStateHandlers = (initialValue, handlers) => (props = {}) => {
                 mayBeEvent.persist()
             }
             setState(currentState =>
-                useCallback(() => handler(currentState, props), [
+                useCallback(handler(currentState, props), [])(
                     mayBeEvent,
                     ...args,
-                ])(mayBeEvent, ...args),
+                ),
             )
         },
     )

@@ -10,6 +10,7 @@
     "utilities",
     "composition"
   ],
+  "version": "0.1.0",
   "typings": "./index.d.ts",
   "main": "dist/Recompose.cjs.js",
   "module": "dist/Recompose.esm.js",

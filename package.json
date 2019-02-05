@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint scripts src",
-    "build": "cross-env PACKAGE_NAME=reEnhance rollup --config scripts/rollup.config.js",
+    "build": "cross-env PACKAGE_NAME=re-enhance rollup --config scripts/rollup.config.js",
     "test": "jest && cross-env SNAPSHOT=match npm run build",
     "test:watch": "cross-env BABEL_ENV=cjs jest --watch",
     "release": "node scripts/release.js",

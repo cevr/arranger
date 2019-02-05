@@ -18,7 +18,7 @@ const input = `./${path.join(PACKAGES_SRC_DIR, packageName, 'index.js')}`
 const outDir = path.join(PACKAGES_OUT_DIR, packageName, 'dist')
 
 const getBabelOptions = ({ useESModules }) => ({
-    exclude: '**/node_modules',
+    exclude: 'node_modules/**',
     runtimeHelpers: true,
     plugins: [['@babel/transform-runtime', { useESModules }]],
 })

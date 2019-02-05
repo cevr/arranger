@@ -255,28 +255,8 @@ Technically, this also means you can use them as decorators (if that's your thin
 class Component extends React.Component {...}
 ```
 
-### Optimizing bundle size
 
-Since `0.23.1` version recompose got support of ES2015 modules.
-To reduce size all you need is to use bundler with tree shaking support
-like [webpack 2](https://github.com/webpack/webpack) or [Rollup](https://github.com/rollup/rollup).
-
-#### Using babel-plugin-lodash
-
-[babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash) is not only limited to [lodash](https://github.com/lodash/lodash). It can be used with `recompose` as well.
-
-This can be done by updating `lodash` config in `.babelrc`.
-
-```diff
- {
--  "plugins": ["lodash"]
-+  "plugins": [
-+    ["lodash", { "id": ["lodash", "recompose"] }]
-+  ]
- }
-```
-
-After that, you can do imports like below without actually including the entire library content.
+.
 
 ```js
 import { compose, mapProps, withState } from 'recompose'
@@ -302,31 +282,3 @@ const enhance = compose(
   pure
 )
 ```
-
-
-## Who uses Recompose
-If your company or project uses Recompose, feel free to add it to [the official list of users](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose) by [editing](https://github.com/acdlite/recompose/wiki/Sites-Using-Recompose/_edit) the wiki page.
-
-## Recipes for Inspiration
-We have a community-driven Recipes page. It's a place to share and see recompose patterns for inspiration. Please add to it! [Recipes](https://github.com/acdlite/recompose/wiki/Recipes).
-
-## Feedback wanted
-
-Project is still in the early stages. Please file an issue or submit a PR if you have suggestions! Or ping me (Andrew Clark) on [Twitter](https://twitter.com/acdlite).
-
-
-## Getting Help
-
-**For support or usage questions like “how do I do X with Recompose” and “my code doesn't work”, please search and ask on [StackOverflow with a Recompose tag](http://stackoverflow.com/questions/tagged/recompose?sort=votes&pageSize=50) first.**
-
-We ask you to do this because StackOverflow has a much better job at keeping popular questions visible. Unfortunately good answers get lost and outdated on GitHub.
-
-Some questions take a long time to get an answer. **If your question gets closed or you don't get a reply on StackOverflow for longer than a few days,** we encourage you to post an issue linking to your question. We will close your issue but this will give people watching the repo an opportunity to see your question and reply to it on StackOverflow if they know the answer.
-
-Please be considerate when doing this as this is not the primary purpose of the issue tracker.
-
-### Help Us Help You
-
-On both websites, it is a good idea to structure your code and question in a way that is easy to read to entice people to answer it. For example, we encourage you to use syntax highlighting, indentation, and split text in paragraphs.
-
-Please keep in mind that people spend their free time trying to help you. You can make it easier for them if you provide versions of the relevant libraries and a runnable small project reproducing your issue. You can put your code on [JSBin](http://jsbin.com) or, for bigger projects, on GitHub. Make sure all the necessary dependencies are declared in `package.json` so anyone can run `npm install && npm start` and reproduce your issue.

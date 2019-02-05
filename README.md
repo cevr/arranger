@@ -1,13 +1,12 @@
 ## A Note from the Author (acdlite, Oct 25 2018):
 
-Hi! I created Recompose about three years ago. About a year after that, I joined the React team. Today, we announced a proposal for [*Hooks*](https://reactjs.org/hooks). Hooks solves all the problems I attempted to address with Recompose three years ago, and more on top of that. I will be discontinuing active maintenance of this package (excluding perhaps bugfixes or patches for compatibility with future React releases), and recommending that people use Hooks instead. **Your existing code with Recompose will still work**, just don't expect any new features. Thank you so, so much to [@wuct](https://github.com/wuct) and [@istarkov](https://github.com/istarkov) for their heroic work maintaining Recompose over the last few years.
+Hi! I created Recompose about three years ago. About a year after that, I joined the React team. Today, we announced a proposal for [_Hooks_](https://reactjs.org/hooks). Hooks solves all the problems I attempted to address with Recompose three years ago, and more on top of that. I will be discontinuing active maintenance of this package (excluding perhaps bugfixes or patches for compatibility with future React releases), and recommending that people use Hooks instead. **Your existing code with Recompose will still work**, just don't expect any new features. Thank you so, so much to [@wuct](https://github.com/wuct) and [@istarkov](https://github.com/istarkov) for their heroic work maintaining Recompose over the last few years.
 
 Read more discussion about this decision [here](https://github.com/acdlite/recompose/issues/756#issuecomment-438674573).
 
-***
+---
 
-Recompose
------
+## Recompose
 
 [![build status](https://img.shields.io/travis/acdlite/recompose/master.svg?style=flat-square)](https://travis-ci.org/acdlite/recompose)
 [![coverage](https://img.shields.io/codecov/c/github/acdlite/recompose.svg?style=flat-square)](https://codecov.io/github/acdlite/recompose)
@@ -26,7 +25,7 @@ npm install recompose --save
 ```
 
 **📺 Watch Andrew's [talk on Recompose at React Europe](https://www.youtube.com/watch?v=zD_judE-bXk).**
-*(Note: Performance optimizations he speaks about have been removed, more info [here](https://github.com/acdlite/recompose/releases/tag/v0.26.0))*
+_(Note: Performance optimizations he speaks about have been removed, more info [here](https://github.com/acdlite/recompose/releases/tag/v0.26.0))_
 
 ### Related modules
 
@@ -40,37 +39,37 @@ Helpers like `withState()` and `withReducer()` provide a nicer way to express st
 
 ```js
 const enhance = withState('counter', 'setCounter', 0)
-const Counter = enhance(({ counter, setCounter }) =>
-  <div>
-    Count: {counter}
-    <button onClick={() => setCounter(n => n + 1)}>Increment</button>
-    <button onClick={() => setCounter(n => n - 1)}>Decrement</button>
-  </div>
-)
+const Counter = enhance(({ counter, setCounter }) => (
+    <div>
+        Count: {counter}
+        <button onClick={() => setCounter(n => n + 1)}>Increment</button>
+        <button onClick={() => setCounter(n => n - 1)}>Decrement</button>
+    </div>
+))
 ```
 
 Or with a Redux-style reducer:
 
 ```js
 const counterReducer = (count, action) => {
-  switch (action.type) {
-  case INCREMENT:
-    return count + 1
-  case DECREMENT:
-    return count - 1
-  default:
-    return count
-  }
+    switch (action.type) {
+        case INCREMENT:
+            return count + 1
+        case DECREMENT:
+            return count - 1
+        default:
+            return count
+    }
 }
 
 const enhance = withReducer('counter', 'dispatch', counterReducer, 0)
-const Counter = enhance(({ counter, dispatch }) =>
-  <div>
-    Count: {counter}
-    <button onClick={() => dispatch({ type: INCREMENT })}>Increment</button>
-    <button onClick={() => dispatch({ type: DECREMENT })}>Decrement</button>
-  </div>
-)
+const Counter = enhance(({ counter, dispatch }) => (
+    <div>
+        Count: {counter}
+        <button onClick={() => dispatch({ type: INCREMENT })}>Increment</button>
+        <button onClick={() => dispatch({ type: DECREMENT })}>Decrement</button>
+    </div>
+))
 ```
 
 ### ...perform the most common React patterns
@@ -86,10 +85,8 @@ const Button = enhance(componentFromProp('component'))
 ```
 
 ```js
-const provide = store => withContext(
-  { store: PropTypes.object },
-  () => ({ store })
-)
+const provide = store =>
+    withContext({ store: PropTypes.object }, () => ({ store }))
 
 // Apply to base component
 // Descendants of App have access to context.store
@@ -118,26 +115,26 @@ Recompose helpers integrate really nicely with external libraries like Relay, Re
 
 ```js
 const enhance = compose(
-  // This is a Recompose-friendly version of Relay.createContainer(), provided by recompose-relay
-  createContainer({
-    fragments: {
-      post: () => Relay.QL`
+    // This is a Recompose-friendly version of Relay.createContainer(), provided by recompose-relay
+    createContainer({
+        fragments: {
+            post: () => Relay.QL`
         fragment on Post {
           title,
           content
         }
-      `
-    }
-  }),
-  flattenProp('post')
+      `,
+        },
+    }),
+    flattenProp('post'),
 )
 
-const Post = enhance(({ title, content }) =>
-  <article>
-    <h1>{title}</h1>
-    <div>{content}</div>
-  </article>
-)
+const Post = enhance(({ title, content }) => (
+    <article>
+        <h1>{title}</h1>
+        <div>{content}</div>
+    </article>
+))
 ```
 
 ### ...build your own libraries
@@ -165,9 +162,6 @@ const ClassComponent = toClass(FunctionComponent)
 
 [Read them here](docs/API.md)
 
-
-
-
 ## Why
 
 Forget ES6 classes vs. `createClass()`.
@@ -175,19 +169,16 @@ Forget ES6 classes vs. `createClass()`.
 An idiomatic React application consists mostly of function components.
 
 ```js
-const Greeting = props =>
-  <p>
-    Hello, {props.name}!
-  </p>
+const Greeting = props => <p>Hello, {props.name}!</p>
 ```
 
 Function components have several key advantages:
 
-- They help prevent abuse of the `setState()` API, favoring props instead.
-- They encourage the ["smart" vs. "dumb" component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
-- They encourage code that is more reusable and modular.
-- They discourage giant, complicated components that do too many things.
-- They allow React to make performance optimizations by avoiding unnecessary checks and memory allocations.
+-   They help prevent abuse of the `setState()` API, favoring props instead.
+-   They encourage the ["smart" vs. "dumb" component pattern](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
+-   They encourage code that is more reusable and modular.
+-   They discourage giant, complicated components that do too many things.
+-   They allow React to make performance optimizations by avoiding unnecessary checks and memory allocations.
 
 (Note that although Recompose encourages the use of function components whenever possible, it works with normal React components as well.)
 
@@ -209,13 +200,13 @@ All functions are available on the top-level export.
 import { compose, mapProps, withState /* ... */ } from 'recompose'
 ```
 
-**Note:** `react` is a _peer dependency_ of Recompose.  If you're using `preact`, add this to your `webpack.config.js`:
+**Note:** `react` is a _peer dependency_ of Recompose. If you're using `preact`, add this to your `webpack.config.js`:
 
 ```js
 resolve: {
-  alias: {
-    react: "preact"
-  }
+    alias: {
+        react: 'preact'
+    }
 }
 ```
 
@@ -250,7 +241,6 @@ Technically, this also means you can use them as decorators (if that's your thin
 class Component extends React.Component {...}
 ```
 
-
 .
 
 ```js
@@ -271,9 +261,9 @@ then use it between HOCs
 
 ```js
 const enhance = compose(
-  withState(/*...args*/),
-  debug, // print out the props here
-  mapProps(/*...args*/),
-  pure
+    withState(/*...args*/),
+    debug, // print out the props here
+    mapProps(/*...args*/),
+    pure,
 )
 ```

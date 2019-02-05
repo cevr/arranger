@@ -40,7 +40,9 @@ import { pipe, usePropMapper, useStateEnhancer /* ... */ } from 're-enhance'
 
 ### Composition
 
-Re-enhance helpers are designed to be composable. It maintains much of the patterns of `recompose` but with a slight twist
+Re-enhance helpers are designed to be composable. It maintains much of the patterns of `recompose` but with a slight change.
+
+
 
 Recompose
 

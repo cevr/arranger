@@ -1,4 +1,5 @@
 module.exports = {
+    plugins: [],
     presets: [['@babel/env', { loose: true }], '@babel/react'],
 }
 

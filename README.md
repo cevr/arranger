@@ -42,7 +42,7 @@ import { pipe, usePropMapper, useStateEnhancer /* ... */ } from 're-enhance'
 
 Re-Enhance helpers are designed to be composable. It maintains much of the patterns of `recompose` but with a slight change.
 
-#Recompose
+#####Recompose
 
 ```js
 const BaseComponent = props => {...}
@@ -55,7 +55,7 @@ const enhance = compose(
 const EnhancedComponent = enhance(BaseComponent)
 ```
 
-#Re-enhance
+#####Re-enhance
 
 ```js
 const useEnhancer = pipe(

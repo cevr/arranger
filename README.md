@@ -15,9 +15,9 @@ yarn add re-enhance
 ## Why
 
 [Dan Abramov - Making Sense of React Hooks](https://dev.to/dan_abramov/making-sense-of-react-hooks-2eib)
-<p align="center">
-  <img src="https://i.imgur.com/02HCPy6.png" width="100" height="300" />
-  <img src="https://i.imgur.com/IxcHEEq.png" width="100" height="300"/> 
+<p>
+  <img src="https://i.imgur.com/02HCPy6.png"  />
+  <img src="https://i.imgur.com/IxcHEEq.png" /> 
 </p>
 
 ## Usage

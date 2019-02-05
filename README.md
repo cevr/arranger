@@ -2,7 +2,7 @@
 
 Re-Enhance is a React utility belt for React hooks. It carries on the work of that Recompose started.
 
-[**Full API documentation**](docs/API.md) - Learn about each helper
+[**Full API documentation to come**]
 
 ```
 npm install re-enhance
@@ -61,6 +61,7 @@ const EnhancedComponent = enhance(BaseComponent)
 const useEnhancer = pipe(
     useStateEnhancer(/*...args*/),
     usePropMapper(/*...args*/),
+    /*pure cannot be hooked 😔*/
 )
 
 const BaseComponent = props => {
@@ -73,4 +74,4 @@ const BaseComponent = props => {
 
 Due to the limitations of Hooks, `recompose` could not be totally ported using React Hooks. However, I may add some of the HOC's to this project for convenience!
 
-If you think that more Hooks can be added, feel free to contribute!
+If you think that more Hooks can be added, feel free to contribute! 🎉🎉

@@ -148,7 +148,7 @@ try {
     exec(`git add ${versionLoc}`)
     exec(`git commit -m "${packageName} ${newTagName}"`)
 
-    if (packageName === 'recompose') {
+    if (packageName === 'reenhance') {
         log(`Tagging release... (${newTagName})`)
         exec(`git tag ${newTagName}`)
     }

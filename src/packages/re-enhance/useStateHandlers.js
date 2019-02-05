@@ -1,5 +1,3 @@
-import { useCallback } from 'react'
-
 import useLegacyState from './utils/useLegacyState'
 import mapValues from './utils/mapValues'
 
@@ -20,9 +18,7 @@ const useStateHandlers = (initialValue, handlers) => (props = {}) => {
         if (args[0] && typeof args[0].persist === 'function') {
             args[0].persist()
         }
-        setState(currentState =>
-            useCallback(handler(currentState, props), [...args])(...args),
-        )
+        setState(currentState => handler(currentState, props)(...args))
     })
 
     return { ...props, ...state, ...boundHandlers }

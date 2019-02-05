@@ -20,6 +20,7 @@ yarn add re-enhance
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">ok so - I took dan&#39;s classes/hooks code from react conf, blacked out the &#39;unnecessary&#39; bits, then colour coded bits by &#39;concern&#39;. so much nicer. the effect is amplified in more complex components, where concerns are split and mixed across lifecycle methods. <a href="https://t.co/nPUzQcisFt">pic.twitter.com/nPUzQcisFt</a></p>&mdash; Sunil Pai (@threepointone) <a href="https://twitter.com/threepointone/status/1056594421079261185?ref_src=twsrc%5Etfw">October 28, 2018</a></blockquote>
   
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8">
+  
 </script>
 
 </div>

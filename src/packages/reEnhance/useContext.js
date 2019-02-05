@@ -1,7 +1,6 @@
 import { useContext as useReactContext, useMemo } from 'react'
 
 /**
- *
  * @param {React.Context} context
  * @param {Function} propMapper
  */

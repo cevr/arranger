@@ -2,7 +2,6 @@
   "extends": [
     "eslint-config-airbnb",
     "prettier",
-    "prettier/flowtype",
     "prettier/react"
   ],
   "plugins": [

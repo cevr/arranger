@@ -15,16 +15,8 @@ yarn add re-enhance
 ## Why
 
 [Dan Abramov - Making Sense of React Hooks](https://dev.to/dan_abramov/making-sense-of-react-hooks-2eib)
-
-<div class="center">
-<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">ok so - I took dan&#39;s classes/hooks code from react conf, blacked out the &#39;unnecessary&#39; bits, then colour coded bits by &#39;concern&#39;. so much nicer. the effect is amplified in more complex components, where concerns are split and mixed across lifecycle methods. <a href="https://t.co/nPUzQcisFt">pic.twitter.com/nPUzQcisFt</a></p>&mdash; Sunil Pai (@threepointone) <a href="https://twitter.com/threepointone/status/1056594421079261185?ref_src=twsrc%5Etfw">October 28, 2018</a></blockquote>
-
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8">
-
-</script>
-
-</div>
-
+![Code reduction](https://imgur.com/F0hkgSi)
+![Code reduction](https://imgur.com/uEgqO9U)
 
 ## Usage
 

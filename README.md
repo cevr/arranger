@@ -15,7 +15,10 @@ yarn add re-enhance
 ## Why
 
 [Dan Abramov - Making Sense of React Hooks](https://dev.to/dan_abramov/making-sense-of-react-hooks-2eib)
-![Code Reduction](https://i.imgur.com/F0hkgSi.png)![Code Reduction](https://i.imgur.com/F0hkgSi.png)
+<p float="left">
+  <img src="https://i.imgur.com/02HCPy6.png" width="100" />
+  <img src="https://i.imgur.com/IxcHEEq.png" width="100" /> 
+</p>
 
 ## Usage
 

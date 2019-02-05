@@ -10,6 +10,10 @@
     "utilities",
     "composition"
   ],
+   "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cevr/re-enhance.git"
+  },
   "version": "0.1.0",
   "typings": "./index.d.ts",
   "main": "dist/Recompose.cjs.js",

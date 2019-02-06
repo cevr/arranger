@@ -4,7 +4,7 @@ import babel from 'rollup-plugin-babel'
 import replace from 'rollup-plugin-replace'
 import commonjs from 'rollup-plugin-commonjs'
 import external from '@yelo/rollup-node-external'
-import { uglify } from 'rollup-plugin-uglify'
+import { terser } from 'rollup-plugin-terser'
 import { pascalCase } from 'change-case'
 
 const { PACKAGES_SRC_DIR, PACKAGES_OUT_DIR } = require('./getPackageNames')
@@ -59,7 +59,7 @@ export default [
             babel(getBabelOptions({ useESModules: true })),
             commonjs(),
             replace({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-            uglify(),
+            terser(),
         ],
     },
 

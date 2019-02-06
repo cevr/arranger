@@ -87,7 +87,7 @@ try {
     )
 
     log('Copying additional project files...')
-    const additionalProjectFiles = ['README.md', '.npmignore']
+    const additionalProjectFiles = ['README.md', '.npmignore', 'index.d.ts']
     additionalProjectFiles.forEach(filename => {
         const src = path.resolve(sourceDir, filename)
 

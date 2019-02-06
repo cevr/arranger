@@ -111,6 +111,9 @@ try {
     log('Copying license...')
     cp('-f', 'LICENSE.md', outDir)
 
+    log('Adding types...')
+    cp('-f', 'index.d.ts', outDir)
+
     log(`Building ${packageName}...`)
     const runRollup = () => `yarn build`
     if (exec(runRollup()).code !== 0) {

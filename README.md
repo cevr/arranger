@@ -54,10 +54,11 @@ const useEnhancer = pipe(
     /*pure cannot be hooked 😔*/
 )
 
-const BaseComponent = props => {
+// But you can use memo!
+const BaseComponent = React.memo(props => {
     const enhancedProps = useEnhancer(props)
     // ...
-}
+})
 ```
 #### Example
 

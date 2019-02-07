@@ -7,10 +7,9 @@ const chalk = require('chalk')
 const { flowRight: compose } = require('lodash')
 const readline = require('readline-sync')
 const semver = require('semver')
+const { PACKAGES_SRC_DIR, PACKAGES_OUT_DIR } = require('./getPackageNames')
 
 const BIN = './node_modules/.bin'
-
-const { PACKAGES_SRC_DIR, PACKAGES_OUT_DIR } = require('./getPackageNames')
 
 const BASE_PACKAGE_LOC = '../src/basePackage.json'
 
@@ -42,7 +41,7 @@ try {
 
     const packageName = 're-enhance'
 
-    const versionLoc = path.resolve(PACKAGES_SRC_DIR, packageName, 'VERSION')
+    const versionLoc = path.resolve(PACKAGES_SRC_DIR, 'VERSION')
     const version = fs.readFileSync(versionLoc, 'utf8').trim()
 
     let nextVersion = readline.question(
@@ -70,8 +69,8 @@ try {
 
     logSuccess('Tests were successful.')
 
-    const sourceDir = path.resolve(PACKAGES_SRC_DIR, packageName)
-    const outDir = path.resolve(PACKAGES_OUT_DIR, packageName)
+    const sourceDir = path.resolve(PACKAGES_SRC_DIR)
+    const outDir = path.resolve(PACKAGES_OUT_DIR)
 
     log('Cleaning destination directory...')
     rm('-rf', outDir)

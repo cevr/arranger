@@ -13,9 +13,9 @@ const packageName = process.env.PACKAGE_NAME
 
 const libraryName = pascalCase(packageName)
 
-const input = `./${path.join(PACKAGES_SRC_DIR, packageName, 'index.js')}`
+const input = `./${path.join(PACKAGES_SRC_DIR, 'index.js')}`
 
-const outDir = path.join(PACKAGES_OUT_DIR, packageName, 'dist')
+const outDir = path.join(PACKAGES_OUT_DIR, 'dist')
 
 const getBabelOptions = ({ useESModules }) => ({
     exclude: 'node_modules/**',

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 
 /**
  * @param {string|symbol} stateName
@@ -10,7 +10,7 @@ const useStateEnhancer = (stateName, stateUpdaterName, initialState) => (
 ) => {
     const [state, update] = useState(
         typeof initialState === 'function'
-            ? useMemo(() => initialState(props), [])
+            ? () => initialState(props)
             : initialState,
     )
 

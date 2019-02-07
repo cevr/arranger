@@ -13,10 +13,10 @@ const useHandlers = handlers => (props = {}) => {
     const actionTypes = Object.keys(realHandlers)
 
     const boundHandlers = actionTypes.reduce(
-        (obj, type) =>
-            Object.assign(obj, {
-                [type]: (...payload) => realHandlers[type](props)(...payload),
-            }),
+        (obj, type) => ({
+            ...obj,
+            [type]: (...payload) => realHandlers[type](props)(...payload),
+        }),
         {},
     )
 

@@ -4,20 +4,20 @@ import { useReducer, useMemo } from 'react'
  * @param {string|symbol} stateName
  * @param {string|symbol} dispatchName
  * @param {Function} reducer
- * @param {any} initialValue
+ * @param {any} initialState
  */
 const useReducerEnhancer = (
     stateName,
     dispatchName,
     reducer,
-    initialValue,
+    initialState,
     initialAction,
 ) => props => {
     const [state, dispatch] = useReducer(
         reducer,
-        typeof initialValue === 'function'
-            ? useMemo(() => initialValue(props), [])
-            : initialValue,
+        typeof initialState === 'function'
+            ? useMemo(() => initialState(props), [])
+            : initialState,
         initialAction,
     )
 

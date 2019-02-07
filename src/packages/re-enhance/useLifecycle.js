@@ -2,7 +2,8 @@ import { useEffect } from 'react'
 import useLegacyState from './utils/useLegacyState'
 import usePrevious from './utils/usePrevious'
 /**
- * Note: shouldComponentUpdate does not prevent rerenders
+ * Note: shouldComponentUpdate does not prevent rerenders.
+ * It prevents componentDidUpdate from being called next render
  * @param {} spec
  * @returns {Object}
  */

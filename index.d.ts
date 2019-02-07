@@ -206,14 +206,14 @@ export function pipe<V0, V1, V2, T1, T2, T3, T4, T5, T6>(
     fn5: (x: T5) => T6,
 ): (x0: V0, x1: V1, x2: V2) => T6
 
-class Spec {
-    state: any
-    props: any
+declare class Spec {
+    state: {}
+    props: {}
 
     componentDidMount(): void
-    componentDidUpdate(previousProps: state, previousState: props): void
+    componentDidUpdate(previousProps: {}, previousState: {}): void
     componentWillUnmount(): void
-    shouldComponentUpdate(): boolean
+    shouldComponentUpdate(nextProps: {}, nextState: {}): boolean
     setState(newState: any | Function): void
 }
 

@@ -67,19 +67,19 @@ import React from 'react';
 import { pipe, useHandlers, useStateEnhancer } from 're-enhance';
 
 const useEnhancer = pipe(
-    useStateEnhancer('counter', 'setCounter', 0),
+    useStateEnhancer('count', 'setCounter', 0),
     useHandlers({
-        inc: ({ setCounter }) => () => setCounter(counter => counter + 1),
-        dec: ({ setCounter }) => () => setCounter(counter => counter - 1),
+        inc: ({ setCounter }) => () => setCounter(count => count + 1),
+        dec: ({ setCounter }) => () => setCounter(count => count - 1),
     }),
 );
 
 function Component(props) {
-    const { counter, inc, dec } = useEnhancer(props);
+    const { count, inc, dec } = useEnhancer(props);
     return (
         <div>
             <button onClick={inc}>Inc</button>
-            {counter}
+            {count}
             <button onClick={dec}>Dec</button>
         </div>
     );

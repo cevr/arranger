@@ -1,5 +1,3 @@
-import { useMemo } from 'react'
-
 import useLegacyState from './utils/useLegacyState'
 import mapValues from './utils/mapValues'
 
@@ -11,9 +9,7 @@ import mapValues from './utils/mapValues'
  */
 const useStateHandlers = (initialState, handlers) => (props = {}) => {
     const [state, setState] = useLegacyState(
-        typeof initialState === 'function'
-            ? useMemo(() => initialState(props), [props])
-            : initialState,
+        typeof initialState === 'function' ? initialState(props) : initialState,
     )
 
     const boundHandlers = mapValues(handlers, handler => (...args) => {

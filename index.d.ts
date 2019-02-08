@@ -217,4 +217,73 @@ declare class Spec {
     setState(newState: any | Function): void
 }
 
-export function useLifecycle(spec: Spec): <T>(props: T) => T
+declare type UnaryFn<A, R> = (a: A) => R
+
+export function useLifecycle<Props, Enhanced>(
+    spec: Spec,
+): (props: Props) => Props & Enhanced
+
+export function useContextEnhancer<Props, Enhanced>(
+    context: React.Context,
+    propMapper: void | UnaryFn<any, Enhanced>,
+): (props: Props) => Props & Enhanced
+
+export function useDefaultProps<Props, Enhanced>(
+    defaultProps: Enhanced,
+): (props: Props) => Props & Enhanced
+
+export function useHandlers<Props, Handlers>(
+    handlers: Handlers,
+): (props: Props) => Props & Handlers
+
+export function usePropFlattener<Props, K extends keyof Props>(
+    propName: K,
+): (props: Props) => Props & K
+
+export function usePropRenamer<T, K extends keyof T>(
+    initialProp: T,
+    renamedProp: string,
+): (props: T) => T
+
+export function useProps<Props, Enhanced>(
+    propMapper: Enhanced | UnaryFn<Props, Enhanced>,
+): (props: Props) => Props & Enhanced
+
+export function usePropsMapper<Props, Enhanced>(
+    propMapper: UnaryFn<Props, Enhanced>,
+): (props: Props) => Enhanced
+
+export function usePropsOnChange<Props, Enhanced>(
+    shouldMapOrKeys: string[] | UnaryFn<Props, Boolean>,
+    createProps: UnaryFn<Props, Enhanced>,
+): (props: Props) => Props & Enhanced
+
+export function usePropsRenamer<Props, Enhanced>(
+    propMapper: UnaryFn<Props, Enhanced>,
+): (props: Props) => Props & Enhanced
+
+export function useReducerEnhancer<Props, Action, State>(
+    stateName: string,
+    dispatchName: string,
+    reducer: (state: State, action: Action) => State,
+    initialState: State,
+    initalAction: Action,
+): (props: Props) => Props & State
+
+export function useStateEnhancer<Props, State>(
+    stateName: string,
+    stateUpdaterName: string,
+    initialState: State | UnaryFn<Props, State>,
+): (props: Props) => Props & State
+
+interface StateHandlers<State, Props> {
+    [key: string]: (
+        state: State,
+        props: Props,
+    ) => (...payload: any[]) => $Shape<State>
+}
+
+export function useStateHandlers<State, Props>(
+    initialState: State | UnaryFn<Props, State>,
+    handlers: StateHandlers,
+): (props: Props) => State & Props

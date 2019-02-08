@@ -11,7 +11,7 @@ const { PACKAGES_SRC_DIR, PACKAGES_OUT_DIR } = require('./getPackageNames')
 
 const BIN = './node_modules/.bin'
 
-const BASE_PACKAGE_LOC = '../src/basePackage.json'
+const BASE_PACKAGE_LOC = '../basePackage.json'
 
 const consoleLog = console.log.bind(console)
 const log = compose(

@@ -16,7 +16,7 @@ const useReducerEnhancer = (
     const [state, dispatch] = useReducer(
         reducer,
         typeof initialState === 'function'
-            ? useMemo(() => initialState(props), [])
+            ? useMemo(() => initialState(props), [props])
             : initialState,
         initialAction,
     )

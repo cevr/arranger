@@ -3,13 +3,13 @@ import mapValues from './utils/mapValues'
 
 /**
  *
- * @param {any} initialState
+ * @param {any} initialValue
  * @param {Object} handlers
  * @returns {Object}
  */
-const useStateHandlers = (initialState, handlers) => (props = {}) => {
+const useStateHandlers = (initialValue, handlers) => (props = {}) => {
     const [state, setState] = useLegacyState(
-        typeof initialState === 'function' ? initialState(props) : initialState,
+        typeof initialValue === 'function' ? initialValue(props) : initialValue,
     )
 
     const boundHandlers = mapValues(handlers, handler => (...args) => {

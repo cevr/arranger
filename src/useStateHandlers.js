@@ -9,7 +9,9 @@ import mapValues from './utils/mapValues'
  */
 const useStateHandlers = (initialValue, handlers) => (props = {}) => {
     const [state, setState] = useLegacyState(
-        typeof initialValue === 'function' ? initialValue(props) : initialValue,
+        typeof initialValue === 'function'
+            ? () => initialValue(props)
+            : initialValue,
     )
 
     const boundHandlers = mapValues(handlers, handler => (...args) => {

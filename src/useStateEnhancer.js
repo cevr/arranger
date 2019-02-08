@@ -9,7 +9,9 @@ const useStateEnhancer = (stateName, stateUpdaterName, initialState) => (
     props = {},
 ) => {
     const [state, update] = useState(
-        typeof initialState === 'function' ? initialState(props) : initialState,
+        typeof initialState === 'function'
+            ? () => initialState(props)
+            : initialState,
     )
 
     return {

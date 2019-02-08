@@ -1,4 +1,4 @@
-import { useReducer } from 'react'
+import { useReducer, useMemo } from 'react'
 
 /**
  * @param {string|symbol} stateName
@@ -15,7 +15,9 @@ const useReducerEnhancer = (
 ) => props => {
     const [state, dispatch] = useReducer(
         reducer,
-        typeof initialState === 'function' ? initialState(props) : initialState,
+        typeof initialState === 'function'
+            ? useMemo(() => initialState(props), [])
+            : initialState,
         initialAction,
     )
 

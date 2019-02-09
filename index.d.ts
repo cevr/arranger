@@ -287,3 +287,8 @@ export function useStateHandlers<State, Props>(
     initialState: State | UnaryFn<Props, State>,
     handlers: StateHandlers,
 ): (props: Props) => State & Props
+
+export function usePropTypes<Props>(
+    propTypes: React.ReactPropTypes,
+    componentName: string,
+): (props: Props) => Props

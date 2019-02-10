@@ -341,7 +341,7 @@ Context: React.Context, contextMapper: (contextValue) => any | string
 ):(props: Object) => {...props, ...contextMapper}
 ```
 
-Provides context to the component. `Context` is a React.Context, and `contextMapper` describes how it will be returned.
+Provides context to the component. `Context` is a React.Context, and `contextMapper` provides the key or objectMap to be merged with the props.
 
 ### `useLifecycle()`
 

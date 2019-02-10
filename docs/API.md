@@ -439,7 +439,7 @@ const useCounter = pipe(
 
 ## Utilities
 
-Re-Enhance also includes some additional helpers that aren't higher-order components, but are still useful.
+Re-Enhance also includes some additional helpers that aren't hooks.
 
 ### `compose()`
 

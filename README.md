@@ -2,7 +2,7 @@
 
 Re-Enhance is a React utility belt for React hooks. It carries on the work of that Recompose started.
 
-[**Full API documentation to come**]
+[**Full API documentation**](docs/API.md) - Learn about each helper
 
 ```
 npm install re-enhance
@@ -15,9 +15,10 @@ yarn add re-enhance
 ## Why
 
 [Dan Abramov - Making Sense of React Hooks](https://dev.to/dan_abramov/making-sense-of-react-hooks-2eib)
+
 <p>
   <img src="https://i.imgur.com/02HCPy6.png" height="500" width="auto" />
-  <img src="https://i.imgur.com/IxcHEEq.png" height="500" width="auto"/> 
+  <img src="https://i.imgur.com/IxcHEEq.png" height="500" width="auto"/>
 </p>
 
 ## Usage
@@ -60,11 +61,12 @@ const BaseComponent = React.memo(props => {
     // ...
 })
 ```
+
 #### Example
 
 ```js
-import React from 'react';
-import { pipe, useHandlers, useStateEnhancer } from 're-enhance';
+import React from 'react'
+import { pipe, useHandlers, useStateEnhancer } from 're-enhance'
 
 const useEnhancer = pipe(
     useStateEnhancer('count', 'setCounter', 0),
@@ -72,20 +74,20 @@ const useEnhancer = pipe(
         inc: ({ setCounter }) => () => setCounter(count => count + 1),
         dec: ({ setCounter }) => () => setCounter(count => count - 1),
     }),
-);
+)
 
 function Component(props) {
-    const { count, inc, dec } = useEnhancer(props);
+    const { count, inc, dec } = useEnhancer(props)
     return (
         <div>
             <button onClick={inc}>Inc</button>
             {count}
             <button onClick={dec}>Dec</button>
         </div>
-    );
+    )
 }
 
-export default Component;
+export default Component
 ```
 
 ## Feedback wanted

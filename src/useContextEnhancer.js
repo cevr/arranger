@@ -9,10 +9,16 @@ import { useContext, useMemo } from 'react'
 const useContextEnhancer = (context, propMapper) => (props = {}) => {
     const contextValue = useContext(context)
 
-    const mappedContext =
-        typeof propMapper === 'function'
-            ? useMemo(() => propMapper(contextValue), [contextValue])
-            : { contextValue }
+    const mappedContext = useMemo(
+        () =>
+            // eslint-disable-next-line
+            typeof propMapper === 'function'
+                ? propMapper(contextValue)
+                : typeof propMapper === 'string'
+                ? { [propMapper]: contextValue }
+                : { contextValue },
+        [contextValue],
+    )
 
     return { ...props, ...mappedContext }
 }

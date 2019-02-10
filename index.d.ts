@@ -209,12 +209,11 @@ export function pipe<V0, V1, V2, T1, T2, T3, T4, T5, T6>(
 declare class Spec {
     state: {}
     props: {}
-
+    setState(newState: any | Function): void
     componentDidMount(): void
     componentDidUpdate(previousProps: {}, previousState: {}): void
     componentWillUnmount(): void
     shouldComponentUpdate(nextProps: {}, nextState: {}): boolean
-    setState(newState: any | Function): void
 }
 
 declare type UnaryFn<A, R> = (a: A) => R
@@ -225,7 +224,7 @@ export function useLifecycle<Props, Enhanced>(
 
 export function useContextEnhancer<Props, Enhanced>(
     context: React.Context,
-    propMapper: void | UnaryFn<any, Enhanced>,
+    contextMapper: void | UnaryFn<any, Enhanced>,
 ): (props: Props) => Props & Enhanced
 
 export function useDefaultProps<Props, Enhanced>(
@@ -241,16 +240,16 @@ export function usePropFlattener<Props, K extends keyof Props>(
 ): (props: Props) => Props & K
 
 export function usePropRenamer<T, K extends keyof T>(
-    initialProp: T,
-    renamedProp: string,
+    oldName: T,
+    newName: string,
 ): (props: T) => T
 
 export function useProps<Props, Enhanced>(
-    propMapper: Enhanced | UnaryFn<Props, Enhanced>,
+    createProps: Enhanced | UnaryFn<Props, Enhanced>,
 ): (props: Props) => Props & Enhanced
 
 export function usePropsMapper<Props, Enhanced>(
-    propMapper: UnaryFn<Props, Enhanced>,
+    propsMapper: UnaryFn<Props, Enhanced>,
 ): (props: Props) => Enhanced
 
 export function usePropsOnChange<Props, Enhanced>(
@@ -259,7 +258,7 @@ export function usePropsOnChange<Props, Enhanced>(
 ): (props: Props) => Props & Enhanced
 
 export function usePropsRenamer<Props, Enhanced>(
-    propMapper: UnaryFn<Props, Enhanced>,
+    nameMap: UnaryFn<Props, Enhanced>,
 ): (props: Props) => Props & Enhanced
 
 export function useReducerEnhancer<Props, Action, State>(
@@ -285,7 +284,7 @@ interface StateHandlers<State, Props> {
 
 export function useStateHandlers<State, Props>(
     initialState: State | UnaryFn<Props, State>,
-    handlers: StateHandlers,
+    stateHandlers: StateHandlers,
 ): (props: Props) => State & Props
 
 export function usePropTypes<Props>(

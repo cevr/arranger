@@ -27,9 +27,12 @@ test('checks proptypes', () => {
         d: [],
         e: {},
     }
-    const spy = jest.spyOn(global.console, 'error')
+    const mockFn = jest.fn()
+    const error = global.console.error
+    global.console.error = mockFn
     testWrapper(usePropTypes(propTypes), propsValid)
-    expect(spy).not.toHaveBeenCalled()
+    expect(mockFn).not.toHaveBeenCalled()
     testWrapper(usePropTypes(propTypes), propsInvalid)
-    expect(spy).toHaveBeenCalled()
+    expect(mockFn).toHaveBeenCalled()
+    global.console.error = error
 })

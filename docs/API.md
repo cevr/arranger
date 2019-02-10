@@ -16,6 +16,7 @@ While some of these hooks are not actually hooks, their purpose is to compose to
     -   [`useReducerEnhancer()`](#withreducer)
     -   [`useContextEnhancer()`](#withcontext)
     -   [`useLifecycle()`](#useLifecycle)
+    -   [`usePropTypes()`](#usePropTypes)
 -   [Utilities](#utilities)
     -   [`compose()`](#compose)
     -   [`pipe()`](#pipe)
@@ -246,11 +247,11 @@ The first form accepts a function which maps the previous state value to a new s
 
 ```js
 const useCounter = pipe(
-    useStateEnhancer('counter', 'setCounter', 0),
+    useStateEnhancer('count', 'setCount', 0),
     useHandlers({
-        increment: ({ setCounter }) => () => setCounter(n => n + 1),
-        decrement: ({ setCounter }) => () => setCounter(n => n - 1),
-        reset: ({ setCounter }) => () => setCounter(0),
+        increment: ({ setCount }) => () => setCount(n => n + 1),
+        decrement: ({ setCount }) => () => setCount(n => n - 1),
+        reset: ({ setCount }) => () => setCount(0),
     }),
 )
 ```
@@ -404,6 +405,36 @@ function PostsList(props) {
         </ul>
     )
 }
+```
+
+### `usePropTypes()`
+
+```js
+usePropTypes(
+  propTypes: React.PropTypes,
+  componentName: string
+): (props: Object) => {...props}
+```
+
+In many cases, the props being created by these hooks cannot be type checked with `Component.propTypes`. This allows for prop checking in these cases
+
+Example:
+
+```js
+const useCounter = pipe(
+    useStateEnhancer('count', 'setCount', 0),
+    useHandlers({
+        increment: ({ setCount }) => () => setCount(n => n + 1),
+        decrement: ({ setCount }) => () => setCount(n => n - 1),
+        reset: ({ setCount }) => () => setCount(0),
+    }),
+    usePropTypes({
+        counter: PropTypes.number,
+        increment: PropTypes.func,
+        decrement: PropTypes.func,
+        reset: PropTypes.func,
+    }),
+)
 ```
 
 ## Utilities

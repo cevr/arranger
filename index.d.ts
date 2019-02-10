@@ -287,7 +287,7 @@ export function useStateHandlers<State, Props>(
     stateHandlers: StateHandlers,
 ): (props: Props) => State & Props
 
-export function usePropTypes<Props>(
+export function checkPropTypes<Props>(
     propTypes: React.ReactPropTypes,
     componentName: string,
 ): (props: Props) => Props

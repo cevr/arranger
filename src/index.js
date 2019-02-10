@@ -1,4 +1,5 @@
 // @ts-check
+export { default as checkPropTypes } from './checkPropTypes'
 export { default as compose } from './compose'
 export { default as pipe } from './pipe'
 export { default as useContextEnhancer } from './useContextEnhancer'

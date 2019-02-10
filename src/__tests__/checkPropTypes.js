@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types'
 
 import testWrapper from '../utils/testWrapper'
-import usePropTypes from '../usePropTypes'
+import checkPropTypes from '../checkPropTypes'
 
 test('checks proptypes', () => {
     const propTypes = {
@@ -30,9 +30,9 @@ test('checks proptypes', () => {
     const mockFn = jest.fn()
     const error = global.console.error
     global.console.error = mockFn
-    testWrapper(usePropTypes(propTypes), propsValid)
+    testWrapper(checkPropTypes(propTypes), propsValid)
     expect(mockFn).not.toHaveBeenCalled()
-    testWrapper(usePropTypes(propTypes), propsInvalid)
+    testWrapper(checkPropTypes(propTypes), propsInvalid)
     expect(mockFn).toHaveBeenCalled()
     global.console.error = error
 })

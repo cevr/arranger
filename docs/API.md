@@ -16,7 +16,7 @@ While some of these hooks are not actually hooks, their purpose is to compose to
     -   [`useReducerEnhancer()`](#withreducer)
     -   [`useContextEnhancer()`](#withcontext)
     -   [`useLifecycle()`](#useLifecycle)
-    -   [`usePropTypes()`](#usePropTypes)
+    -   [`checkPropTypes()`](#checkPropTypes)
 -   [Utilities](#utilities)
     -   [`compose()`](#compose)
     -   [`pipe()`](#pipe)
@@ -407,10 +407,10 @@ function PostsList(props) {
 }
 ```
 
-### `usePropTypes()`
+### `checkPropTypes()`
 
 ```js
-usePropTypes(
+checkPropTypes(
   propTypes: React.PropTypes,
   componentName: string
 ): (props: Object) => {...props}
@@ -428,7 +428,7 @@ const useCounter = pipe(
         decrement: ({ setCount }) => () => setCount(n => n - 1),
         reset: ({ setCount }) => () => setCount(0),
     }),
-    usePropTypes({
+    checkPropTypes({
         counter: PropTypes.number,
         increment: PropTypes.func,
         decrement: PropTypes.func,

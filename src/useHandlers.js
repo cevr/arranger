@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import mapValues from './utils/mapValues'
 
 /**
  * @param {Object} handlers
@@ -9,15 +10,23 @@ const useHandlers = handlers => (props = {}) => {
         () => (typeof handlers === 'function' ? handlers(props) : handlers),
         [],
     )
+    const boundHandlers = mapValues(
+        realHandlers,
+        createHandler => (...args) => {
+            const handler = createHandler(props)
+            if (
+                process.env.NODE_ENV !== 'production' &&
+                typeof handler !== 'function'
+            ) {
+                // eslint-disable-next-line no-console
+                console.error(
+                    'useHandlers(): Expected a map of higher-order functions. ' +
+                        'Refer to the docs for more info.',
+                )
+            }
 
-    const actionTypes = Object.keys(realHandlers)
-
-    const boundHandlers = actionTypes.reduce(
-        (obj, type) => ({
-            ...obj,
-            [type]: (...payload) => realHandlers[type](props)(...payload),
-        }),
-        {},
+            return handler(...args)
+        },
     )
 
     return { ...props, ...boundHandlers }

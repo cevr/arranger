@@ -3,7 +3,7 @@
 import testWrapper from '../utils/testWrapper'
 import useReducerEnhancer from '../useReducerEnhancer'
 
-test('usestate handlers', () => {
+test('useReducerEnhancer', () => {
     const getProps = testWrapper(
         useReducerEnhancer(
             'state',
@@ -26,7 +26,7 @@ test('usestate handlers', () => {
     expect(getProps().state).toEqual({ count: 1 })
 })
 
-test('usestate handlers memo', () => {
+test('useReducerEnhancer memo', () => {
     const getProps = testWrapper(
         useReducerEnhancer(
             'state',

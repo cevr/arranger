@@ -3,7 +3,7 @@
 import testWrapper from '../utils/testWrapper'
 import usePropRenamer from '../usePropsRenamer'
 
-test('branch left', () => {
+test('renames props', () => {
     const getProps = testWrapper(
         usePropRenamer({ val: 'renamed', val2: 'renamed2' }),
         {

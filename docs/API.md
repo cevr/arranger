@@ -352,7 +352,7 @@ useLifecycle(
 ): HigherOrderComponent
 ```
 
-A a hook version of [`React.Component()`](https://facebook.github.io/react/docs/react-api.html#react.component) common lifecycles. It supports only the `componentDidMount`, `componentWillUnmount`, `shouldComponentUpdate` lifecycles. Please note that these are not the same synchronous methods that React calls, but only simulated using hooks.
+A a hook version of [`React.Component()`](https://facebook.github.io/react/docs/react-api.html#react.component) common lifecycles. It supports only the `componentDidMount`, `componentWillUnmount`, `componentDidUpdate`, and `shouldComponentUpdate` lifecycles. Please note that these are not the same synchronous methods that React calls, but only simulated using hooks.
 
 Any state changes made in a useLifecycle method, by using `setState`, will be propagated to the wrapped component as props.
 

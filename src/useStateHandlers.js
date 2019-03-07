@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import useLegacyState from './utils/useLegacyState'
 import mapValues from './utils/mapValues'
 
@@ -14,14 +16,17 @@ const useStateHandlers = (initialValue, handlers) => (props = {}) => {
             : initialValue,
     )
 
-    const boundHandlers = mapValues(handlers, handler => (...args) => {
-        // Having that functional form of setState can be called async
-        // we need to persist SyntheticEvent
-        if (args[0] && typeof args[0].persist === 'function') {
-            args[0].persist()
-        }
-        setState(currentState => handler(currentState, props)(...args))
-    })
+    const boundHandlers = useCallback(
+        mapValues(handlers, handler => (...args) => {
+            // Having that functional form of setState can be called async`
+            // we need to persist SyntheticEvent
+            if (args[0] && typeof args[0].persist === 'function') {
+                args[0].persist()
+            }
+            setState(currentState => handler(currentState, props)(...args))
+        }),
+        [handlers, props],
+    )
 
     return { ...props, ...state, ...boundHandlers }
 }

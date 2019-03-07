@@ -1,4 +1,5 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
+
 import mapValues from './utils/mapValues'
 
 /**
@@ -10,9 +11,8 @@ const useHandlers = handlers => (props = {}) => {
         () => (typeof handlers === 'function' ? handlers(props) : handlers),
         [],
     )
-    const boundHandlers = mapValues(
-        realHandlers,
-        createHandler => (...args) => {
+    const boundHandlers = useCallback(
+        mapValues(realHandlers, createHandler => (...args) => {
             const handler = createHandler(props)
             if (
                 process.env.NODE_ENV !== 'production' &&
@@ -26,7 +26,8 @@ const useHandlers = handlers => (props = {}) => {
             }
 
             return handler(...args)
-        },
+        }),
+        [handlers, props],
     )
 
     return { ...props, ...boundHandlers }

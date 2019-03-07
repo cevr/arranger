@@ -291,3 +291,7 @@ export function checkPropTypes<Props>(
     propTypes: React.ReactPropTypes,
     componentName: string,
 ): (props: Props) => Props
+
+export function useHook<Props, Enhanced>(
+    hookMapper: Enhanced | UnaryFn<Props, Enhanced>,
+): (props: Props) => Props & Enhanced

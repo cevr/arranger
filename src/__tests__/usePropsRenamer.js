@@ -4,7 +4,7 @@ import testWrapper from '../utils/testWrapper'
 import usePropRenamer from '../usePropsRenamer'
 
 test('renames props', () => {
-    const getProps = testWrapper(
+    const wrapper = testWrapper(
         usePropRenamer({ val: 'renamed', val2: 'renamed2' }),
         {
             val: true,
@@ -13,7 +13,7 @@ test('renames props', () => {
         },
     )
 
-    expect(getProps().renamed).toBe(true)
-    expect(getProps().renamed2).toBe(0)
-    expect(getProps().other).toBe(false)
+    expect(wrapper.getProps().renamed).toBe(true)
+    expect(wrapper.getProps().renamed2).toBe(0)
+    expect(wrapper.getProps().other).toBe(false)
 })

@@ -4,7 +4,7 @@ import testWrapper from '../utils/testWrapper'
 import useStateHandlers from '../useStateHandlers'
 
 test('useStateHandlers', () => {
-    const getProps = testWrapper(
+    const wrapper = testWrapper(
         useStateHandlers(
             { b: false },
             {
@@ -14,12 +14,12 @@ test('useStateHandlers', () => {
         {},
     )
 
-    getProps().handle({ b: true })
-    expect(getProps().b).toEqual(true)
+    wrapper.getProps().handle({ b: true })
+    expect(wrapper.getProps().b).toEqual(true)
 })
 
 test('useStateHandlers calling undefined', () => {
-    const getProps = testWrapper(
+    const wrapper = testWrapper(
         useStateHandlers(
             { b: false },
             {
@@ -29,18 +29,18 @@ test('useStateHandlers calling undefined', () => {
         {},
     )
 
-    getProps().handle()
-    expect(getProps().b).toEqual(false)
+    wrapper.getProps().handle()
+    expect(wrapper.getProps().b).toEqual(false)
 })
 
 test('useStateHandlers memo', () => {
-    const getProps = testWrapper(
+    const wrapper = testWrapper(
         useStateHandlers(() => ({ b: false }), {
             handle: () => ({ b }) => ({ b }),
         }),
         {},
     )
 
-    getProps().handle({ b: true })
-    expect(getProps().b).toEqual(true)
+    wrapper.getProps().handle({ b: true })
+    expect(wrapper.getProps().b).toEqual(true)
 })

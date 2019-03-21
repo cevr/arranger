@@ -7,7 +7,7 @@ import useHook from '../useHook'
 test('maps hooks to props', () => {
     let name
     let setName
-    const getProps = testWrapper(
+    const wrapper = testWrapper(
         useHook(props => {
             ;[name, setName] = useState(props.name)
             return { name, setName }
@@ -17,6 +17,6 @@ test('maps hooks to props', () => {
         },
     )
 
-    expect(getProps().name).toBe('Sammy')
-    expect(getProps().setName).toBe(setName)
+    expect(wrapper.getProps().name).toBe('Sammy')
+    expect(wrapper.getProps().setName).toBe(setName)
 })

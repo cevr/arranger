@@ -4,7 +4,7 @@ import testWrapper from '../utils/testWrapper'
 import useReducerEnhancer from '../useReducerEnhancer'
 
 test('useReducerEnhancer', () => {
-    const getProps = testWrapper(
+    const wrapper = testWrapper(
         useReducerEnhancer(
             'state',
             'dispatch',
@@ -21,13 +21,13 @@ test('useReducerEnhancer', () => {
         {},
     )
 
-    expect(getProps().state).toEqual({ count: 0 })
-    getProps().dispatch({ type: 'INCREMENT' })
-    expect(getProps().state).toEqual({ count: 1 })
+    expect(wrapper.getProps().state).toEqual({ count: 0 })
+    wrapper.getProps().dispatch({ type: 'INCREMENT' })
+    expect(wrapper.getProps().state).toEqual({ count: 1 })
 })
 
 test('useReducerEnhancer memo', () => {
-    const getProps = testWrapper(
+    const wrapper = testWrapper(
         useReducerEnhancer(
             'state',
             'dispatch',
@@ -44,7 +44,7 @@ test('useReducerEnhancer memo', () => {
         {},
     )
 
-    expect(getProps().state).toEqual({ count: 0 })
-    getProps().dispatch({ type: 'INCREMENT' })
-    expect(getProps().state).toEqual({ count: 1 })
+    expect(wrapper.getProps().state).toEqual({ count: 0 })
+    wrapper.getProps().dispatch({ type: 'INCREMENT' })
+    expect(wrapper.getProps().state).toEqual({ count: 1 })
 })

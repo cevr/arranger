@@ -4,11 +4,11 @@ import testWrapper from '../utils/testWrapper'
 import useProps from '../useProps'
 
 test('maps props', () => {
-    const getProps = testWrapper(useProps(({ b }) => ({ b })), {
+    const wrapper = testWrapper(useProps(({ b }) => ({ b })), {
         a: true,
         b: false,
     })
 
-    expect(getProps().a).toBe(true)
-    expect(getProps().b).toBe(false)
+    expect(wrapper.getProps().a).toBe(true)
+    expect(wrapper.getProps().b).toBe(false)
 })

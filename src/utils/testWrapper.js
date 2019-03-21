@@ -11,13 +11,16 @@ export default function(enhancer, propsIn) {
         return null
     }
 
-    const Component = (
-        <Context.Provider value="test">
-            {React.createElement(Factory, propsIn)}
-        </Context.Provider>
-    )
+    const createComponent = props => {
+        const Component = (
+            <Context.Provider value="test">
+                {React.createElement(Factory, props)}
+            </Context.Provider>
+        )
 
-    mount(Component)
+        mount(Component)
+    }
+    createComponent(propsIn)
 
-    return () => propsOut
+    return { getProps: () => propsOut, updateProps: createComponent }
 }

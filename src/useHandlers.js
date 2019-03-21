@@ -27,7 +27,7 @@ const useHandlers = handlers => (props = {}) => {
 
             return handler(...args)
         }),
-        [handlers, props],
+        [],
     )
 
     return { ...props, ...boundHandlers }

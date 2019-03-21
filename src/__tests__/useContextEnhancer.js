@@ -3,15 +3,13 @@ import useContextEnhancer from '../useContextEnhancer'
 import testWrapper, { Context } from '../utils/testWrapper'
 
 test('consumes context', () => {
-    const getProps = testWrapper(
+    const wrapper = testWrapper(
         useContextEnhancer(Context, value => ({ value })),
     )
-    const getPropsStringMapper = testWrapper(
-        useContextEnhancer(Context, 'value'),
-    )
-    const getPropsNoMapper = testWrapper(useContextEnhancer(Context))
+    const stringWrapper = testWrapper(useContextEnhancer(Context, 'value'))
+    const noMapperWrapper = testWrapper(useContextEnhancer(Context))
 
-    expect(getProps().value).toBe('test')
-    expect(getPropsStringMapper().value).toBe('test')
-    expect(getPropsNoMapper().contextValue).toBe('test')
+    expect(wrapper.getProps().value).toBe('test')
+    expect(stringWrapper.getProps().value).toBe('test')
+    expect(noMapperWrapper.getProps().contextValue).toBe('test')
 })

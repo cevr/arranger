@@ -16,10 +16,9 @@ yarn add re-enhance
 
 [Dan Abramov - Making Sense of React Hooks](https://dev.to/dan_abramov/making-sense-of-react-hooks-2eib)
 
-<p>
-  <img src="https://i.imgur.com/02HCPy6.png" height="500" width="auto" />
-  <img src="https://i.imgur.com/IxcHEEq.png" height="500" width="auto"/>
-</p>
+I think with the introduction of hooks, we have finally made a great innovation in the methodology of front-end design. With hooks, there will be the rise of new paradigms!
+
+However, I've noticed that composing many hooks together for bigger components can leave a lot of business logic cluttering the presentational login inside a component. Recompose allowed one to separate these concerns, and Re-Enhance continues where it left off.
 
 ## Usage
 

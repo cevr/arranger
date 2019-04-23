@@ -7,6 +7,8 @@ While some of these hooks are not actually hooks, their purpose is to compose to
     -   [`useProps()`](#useProps)
     -   [`usePropsOnChange()`](#withpropsonchange)
     -   [`useHandlers()`](#useHandlers)
+    -   ['useHook()'](#useHook)
+    -   ['useEffectEnhancer()'](#useEffectEnhancer)
     -   [`useDefaultProps()`](#useDefaultProps)
     -   [`usePropRenamer()`](#usePropRenamer)
     -   [`usePropsRenamer()`](#usePropsRenamer)
@@ -103,6 +105,33 @@ function Form(props) {
             </label>
         </form>
     )
+}
+```
+
+### `useHook()`
+
+```js
+useHook(
+  hookMapper: (props) => mappedProps
+): (props: Object) => {...mappedProps, ...props}
+```
+
+Specify a mapper function that can contain other hooks, then integrate the return of the hook into the props object.
+
+Example:
+
+```js
+const useEnhancer = pipe(
+    useStateEnhancer('selection', 'setSelection', []),
+    useHook(props => {
+        const users = useStore(state => state.users)
+        return { users }
+    }),
+)
+
+function Component(props) {
+    const { selection, users } = useEnhancer(props)
+    //...
 }
 ```
 
@@ -348,24 +377,24 @@ Provides context to the component. `Context` is a React.Context, and `contextMap
 
 ```js
 useLifecycle(
-  spec: Object,
+  getSpec: UnaryFn<{props, state, setState, prevProps, prevState}, Spec>
 ): HigherOrderComponent
 ```
 
-A a hook version of [`React.Component()`](https://facebook.github.io/react/docs/react-api.html#react.component) common lifecycles. It supports only the `componentDidMount`, `componentWillUnmount`, `componentDidUpdate`, and `shouldComponentUpdate` lifecycles. Please note that these are not the same synchronous methods that React calls, but only simulated using hooks.
+A hook version of [`React.Component`](https://facebook.github.io/react/docs/react-api.html#react.component) common lifecycles. It supports only the `onMount`, `onUnmount`, `onUpdate`, and `shouldUpdate` lifecycles. Please note that these are not the same synchronous methods that React calls. They are simulated for easier reasoning.
 
 Any state changes made in a useLifecycle method, by using `setState`, will be propagated to the wrapped component as props.
 
 Example:
 
 ```js
-const useEnhancer = useLifecycle({
-    componentDidMount() {
-        fetchPosts().then(posts => {
-            this.setState({ posts })
+const useEnhancer = useLifecycle(({ setState, props }) => ({
+    onMount() {
+        fetchPosts(props.id).then(posts => {
+            setState({ posts })
         })
     },
-})
+}))
 
 function PostsList(props) {
     // posts will start undefined
@@ -384,18 +413,18 @@ Alternatively:
 
 ```js
 const useEnhancer = pipe(
-    useLifecycle({
-        componentDidMount() {
-            fetchPosts().then(posts => {
-                this.setState({ posts })
+    useLifecycle(({ props, setState }) => ({
+        onMount() {
+            fetchPosts(props.id).then(posts => {
+                setState({ posts })
             })
         },
-    }),
+    })),
+    // posts will be defaulted
     useDefaultProps({ posts: [] }),
 )
 
 function PostsList(props) {
-    // posts will be defaulted
     const { posts } = useEnhancer(props)
     return (
         <ul>

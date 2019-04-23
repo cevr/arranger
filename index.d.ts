@@ -206,20 +206,30 @@ export function pipe<V0, V1, V2, T1, T2, T3, T4, T5, T6>(
     fn5: (x: T5) => T6,
 ): (x0: V0, x1: V1, x2: V2) => T6
 
-declare class Spec {
+declare interface Spec {
     state: {}
     props: {}
-    setState(newState: any | Function): void
-    componentDidMount(): void
-    componentDidUpdate(previousProps: {}, previousState: {}): void
-    componentWillUnmount(): void
-    shouldComponentUpdate(nextProps: {}, nextState: {}): boolean
+    setState(): void
+    onMount(): void
+    onUpdate(): void
+    onUnmount(): void
+    shouldUpdate(): boolean
 }
+
+declare interface Self<Props, State> {
+    props: Props
+    state: State
+    setState: (state: any | UnaryFn<any, State>) => State
+    prevProps: Props
+    prevState: State
+}
+
+declare type GetSpec = (self: Self) => Spec
 
 declare type UnaryFn<A, R> = (a: A) => R
 
 export function useLifecycle<Props, Enhanced>(
-    spec: Spec,
+    getSpec: GetSpec,
 ): (props: Props) => Props & Enhanced
 
 export function useContextEnhancer<Props, Enhanced>(
@@ -295,3 +305,7 @@ export function checkPropTypes<Props>(
 export function useHook<Props, Enhanced>(
     hookMapper: Enhanced | UnaryFn<Props, Enhanced>,
 ): (props: Props) => Props & Enhanced
+
+// export function useEffectEnhancer<Props, Effect>(
+//     effect: UnaryFn<Props, Effect>,
+// ): (props: Props) => Props

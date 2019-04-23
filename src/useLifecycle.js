@@ -4,34 +4,33 @@ import usePrevious from './utils/usePrevious'
 /**
  * Note: shouldComponentUpdate does not prevent rerenders.
  * It prevents componentDidUpdate from being called next render
- * @param {} spec
+ * @param {} getSpec
  * @returns {Object}
  */
-const useLifecycle = spec => (props = {}) => {
+const useLifecycle = getSpec => (props = {}) => {
     const [state, setState] = useLegacyState({})
-
-    const self = { props, state, setState }
     const previousProps = usePrevious(props) || {}
     const previousState = usePrevious(state) || {}
-    const shouldUpdate = spec.shouldComponentUpdate
-        ? spec.shouldComponentUpdate.call(
-              { props: previousProps, state: previousState },
-              props,
-              state,
-          )
-        : true
+
+    const self = {
+        props,
+        state,
+        setState,
+        prevProps: previousProps,
+        prevState: previousState,
+    }
+    const spec = getSpec(self)
+    const shouldUpdate = spec.shouldUpdate ? spec.shouldUpdate() : true
 
     useEffect(() => {
-        if (spec.componentDidMount) spec.componentDidMount.call(self)
+        if (spec.onMount) spec.onMount()
         return () => {
-            if (spec.componentWillUnmount)
-                spec.componentWillUnmount.call({ props, state })
+            if (spec.onUnmount) spec.onUnmount()
         }
     }, [])
 
     useEffect(() => {
-        if (shouldUpdate && spec.componentDidUpdate)
-            spec.componentDidUpdate.call(self, previousProps, previousState)
+        if (shouldUpdate && spec.onUpdate) spec.onUpdate()
     })
 
     return { ...props, ...state }

@@ -5,13 +5,13 @@ import { mount } from 'enzyme'
 import useLifecycle from '../useLifecycle'
 
 describe('useLifecycle', () => {
-    test('componentDidMount', () => {
+    test('onMount', () => {
         const onMount = jest.fn()
-        const useEnhancer = useLifecycle({
-            componentDidMount() {
-                this.props.onMount()
+        const useEnhancer = useLifecycle(({ props }) => ({
+            onMount() {
+                props.onMount()
             },
-        })
+        }))
         function Component(props) {
             useEnhancer(props)
             return null
@@ -23,29 +23,29 @@ describe('useLifecycle', () => {
         expect(onMount).toHaveBeenCalledTimes(1)
     })
 
-    test('componentWillUnmount', () => {
-        const onUnMount = jest.fn()
-        const useEnhancer = useLifecycle({
-            componentWillUnmount() {
-                this.props.onUnMount()
+    test('onUnmount', () => {
+        const onUnmount = jest.fn()
+        const useEnhancer = useLifecycle(({ props }) => ({
+            onUnmount() {
+                props.onUnMount()
             },
-        })
+        }))
         function Component(props) {
             useEnhancer(props)
             return null
         }
-        const wrapper = mount(<Component onUnMount={onUnMount} />)
+        const wrapper = mount(<Component onUnMount={onUnmount} />)
         wrapper.unmount()
-        expect(onUnMount).toHaveBeenCalledTimes(1)
+        expect(onUnmount).toHaveBeenCalledTimes(1)
     })
 
-    test('componentDidUpdate', () => {
+    test('onUpdate', () => {
         const onUpdate = jest.fn()
-        const useEnhancer = useLifecycle({
-            componentDidUpdate() {
-                this.props.onUpdate()
+        const useEnhancer = useLifecycle(({ props }) => ({
+            onUpdate() {
+                props.onUpdate()
             },
-        })
+        }))
         function Component(props) {
             useEnhancer(props)
             return null
@@ -56,18 +56,18 @@ describe('useLifecycle', () => {
         expect(onUpdate).toHaveBeenCalled()
     })
 
-    test('shouldComponentUpdate', () => {
+    test('shouldUpdate', () => {
         const onUpdate = jest.fn()
-        const useEnhancer = useLifecycle({
-            componentDidUpdate() {
-                this.props.onUpdate()
+        const useEnhancer = useLifecycle(({ props, setState, state }) => ({
+            onUpdate() {
+                props.onUpdate()
                 // eslint-disable-next-line
-                this.setState({ test: 'update' })
+                setState({ test: 'update' })
             },
-            shouldComponentUpdate(_, nextState) {
-                return nextState.test !== 'update'
+            shouldUpdate() {
+                return state.test !== 'update'
             },
-        })
+        }))
         function Component(props) {
             useEnhancer(props)
             return null

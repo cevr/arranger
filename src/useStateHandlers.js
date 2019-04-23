@@ -25,7 +25,7 @@ const useStateHandlers = (initialValue, handlers) => (props = {}) => {
             }
             setState(currentState => handler(currentState, props)(...args))
         }),
-        [],
+        [props],
     )
 
     return { ...props, ...state, ...boundHandlers }

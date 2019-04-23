@@ -14,7 +14,7 @@
     "test:watch": "cross-env BABEL_ENV=cjs jest --watch",
     "release": "node scripts/release.js",
     "install": "node scripts/installNestedPackageDeps.js",
-    "format": "prettier --semi false --trailing-comma all --single-quote --write 'scripts/*.js' 'src/packages/*/*.js' 'src/packages/*/!(node_modules)/**/*.js'"
+    "format": "prettier --write **/**.{js,jsx,json,css}"
   },
   "jest": {
     "coverageReporters": [

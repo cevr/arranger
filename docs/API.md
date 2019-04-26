@@ -135,6 +135,25 @@ function Component(props) {
 }
 ```
 
+### `useEffectEnhancer()`
+
+```js
+useEffectEnhancer(effect: props => void, deps: string[]): (props: Object) => {...props}
+```
+
+Like the useEffect hook, this allows you to handle effects inside the enhancer pipe. The `deps` are a list of keys that match the props you are depending on.
+
+Example
+
+```js
+const useEnhancer = useEffectEnhancer(
+    ({ setId, id }) => {
+        setId(id)
+    },
+    ['setId', 'id'],
+)
+```
+
 ### `useDefaultProps()`
 
 ```js
@@ -381,7 +400,7 @@ useLifecycle(
 ): HigherOrderComponent
 ```
 
-A hook version of [`React.Component`](https://facebook.github.io/react/docs/react-api.html#react.component) common lifecycles. It supports only the `onMount`, `onUnmount`, `onUpdate`, and `shouldUpdate` lifecycles. Please note that these are not the same synchronous methods that React calls. They are simulated for easier reasoning.
+A hook version of [`React.Component`](https://facebook.github.io/react/docs/react-api.html#react.component) common lifecycles. It supports only the `onMount`, `onUnmount`, `onUpdate`, and `shouldUpdate` lifecycles. Please note that these are _not_ the same synchronous methods that React calls. They are simulated for easier reasoning.
 
 Any state changes made in a useLifecycle method, by using `setState`, will be propagated to the wrapped component as props.
 

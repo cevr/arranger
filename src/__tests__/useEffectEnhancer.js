@@ -10,9 +10,12 @@ test('useEffect', () => {
     const func = jest.fn()
     const useEnhancer = pipe(
         useStateEnhancer('test', 'updateTest', 0),
-        useEffectEnhancer(['func', 'test'], props => {
-            props.func()
-        }),
+        useEffectEnhancer(
+            props => {
+                props.func()
+            },
+            ['func', 'test'],
+        ),
     )
     function Component(props) {
         useEnhancer(props)

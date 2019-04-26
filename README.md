@@ -25,7 +25,7 @@ However, I've noticed that composing many hooks together for bigger components c
 All functions are available on the top-level export.
 
 ```js
-import { pipe, usePropMapper, useStateEnhancer /* ... */ } from 're-enhance'
+import { pipe, usePropMapper, withState /* ... */ } from 're-enhance'
 ```
 
 ### Composition
@@ -49,7 +49,7 @@ const EnhancedComponent = enhance(BaseComponent)
 
 ```js
 const useEnhancer = pipe(
-    useStateEnhancer(/*...args*/),
+    withState(/*...args*/),
     usePropMapper(/*...args*/),
     /*pure cannot be hooked 😔*/
 )
@@ -65,11 +65,11 @@ const BaseComponent = React.memo(props => {
 
 ```js
 import React from 'react'
-import { pipe, useHandlers, useStateEnhancer } from 're-enhance'
+import { pipe, withHandlers, withState } from 're-enhance'
 
 const useEnhancer = pipe(
-    useStateEnhancer('count', 'setCounter', 0),
-    useHandlers({
+    withState('count', 'setCounter', 0),
+    withHandlers({
         inc: ({ setCounter }) => () => setCounter(count => count + 1),
         dec: ({ setCounter }) => () => setCounter(count => count - 1),
     }),

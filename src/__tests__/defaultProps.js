@@ -1,11 +1,11 @@
 /* eslint-env jest */
 
 import testWrapper from '../utils/testWrapper'
-import useDefaultProps from '../useDefaultProps'
+import defaultProps from '../defaultProps'
 
 test('default props without prop', () => {
     const wrapper = testWrapper(
-        useDefaultProps({
+        defaultProps({
             val: false,
         }),
         {},
@@ -16,7 +16,7 @@ test('default props without prop', () => {
 
 test('default props useprop', () => {
     const wrapper = testWrapper(
-        useDefaultProps({
+        defaultProps({
             val: false,
         }),
         { val: true },

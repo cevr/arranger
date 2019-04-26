@@ -2,15 +2,15 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-import useEffectEnhancer from '../useEffectEnhancer'
-import useStateEnhancer from '../useStateEnhancer'
+import withEffect from '../withEffect'
+import withState from '../withState'
 import pipe from '../pipe'
 
 test('useEffect', () => {
     const func = jest.fn()
     const useEnhancer = pipe(
-        useStateEnhancer('test', 'updateTest', 0),
-        useEffectEnhancer(
+        withState('test', 'updateTest', 0),
+        withEffect(
             props => {
                 props.func()
             },

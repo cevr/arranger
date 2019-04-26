@@ -3,7 +3,7 @@
  * @param {string|symbol} renamedProp
  * @returns {Object}
  */
-const usePropRenamer = (initialProp, renamedProp) => ({
+const renameProp = (initialProp, renamedProp) => ({
     [initialProp]: prop,
     ...props
 } = {}) => ({
@@ -11,4 +11,4 @@ const usePropRenamer = (initialProp, renamedProp) => ({
     [renamedProp]: prop,
 })
 
-export default usePropRenamer
+export default renameProp

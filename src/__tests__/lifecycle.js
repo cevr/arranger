@@ -2,12 +2,12 @@
 import React from 'react'
 import { mount } from 'enzyme'
 
-import useLifecycle from '../useLifecycle'
+import lifecycle from '../lifecycle'
 
-describe('useLifecycle', () => {
+describe('lifecycle', () => {
     test('onMount', () => {
         const onMount = jest.fn()
-        const useEnhancer = useLifecycle(({ props }) => ({
+        const useEnhancer = lifecycle(({ props }) => ({
             onMount() {
                 props.onMount()
             },
@@ -25,7 +25,7 @@ describe('useLifecycle', () => {
 
     test('onUnmount', () => {
         const onUnmount = jest.fn()
-        const useEnhancer = useLifecycle(({ props }) => ({
+        const useEnhancer = lifecycle(({ props }) => ({
             onUnmount() {
                 props.onUnMount()
             },
@@ -41,7 +41,7 @@ describe('useLifecycle', () => {
 
     test('onUpdate', () => {
         const onUpdate = jest.fn()
-        const useEnhancer = useLifecycle(({ props }) => ({
+        const useEnhancer = lifecycle(({ props }) => ({
             onUpdate() {
                 props.onUpdate()
             },
@@ -58,7 +58,7 @@ describe('useLifecycle', () => {
 
     test('shouldUpdate', () => {
         const onUpdate = jest.fn()
-        const useEnhancer = useLifecycle(({ props, setState, state }) => ({
+        const useEnhancer = lifecycle(({ props, setState, state }) => ({
             onUpdate() {
                 props.onUpdate()
                 // eslint-disable-next-line

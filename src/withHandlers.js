@@ -6,7 +6,7 @@ import mapValues from './utils/mapValues'
  * @param {Object} handlers
  * @returns {Object}
  */
-const useHandlers = handlers => (props = {}) => {
+const withHandlers = handlers => (props = {}) => {
     const realHandlers = useMemo(
         () => (typeof handlers === 'function' ? handlers(props) : handlers),
         [],
@@ -20,7 +20,7 @@ const useHandlers = handlers => (props = {}) => {
             ) {
                 // eslint-disable-next-line no-console
                 console.error(
-                    'useHandlers(): Expected a map of higher-order functions. ' +
+                    'withHandlers(): Expected a map of higher-order functions. ' +
                         'Refer to the docs for more info.',
                 )
             }
@@ -33,4 +33,4 @@ const useHandlers = handlers => (props = {}) => {
     return { ...props, ...boundHandlers }
 }
 
-export default useHandlers
+export default withHandlers

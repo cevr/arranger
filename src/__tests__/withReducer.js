@@ -1,11 +1,11 @@
 /* eslint-env jest */
 
 import testWrapper from '../utils/testWrapper'
-import useReducerEnhancer from '../useReducerEnhancer'
+import withReducer from '../withReducer'
 
-test('useReducerEnhancer', () => {
+test('withReducer', () => {
     const wrapper = testWrapper(
-        useReducerEnhancer(
+        withReducer(
             'state',
             'dispatch',
             (state, action) => {
@@ -26,9 +26,9 @@ test('useReducerEnhancer', () => {
     expect(wrapper.getProps().state).toEqual({ count: 1 })
 })
 
-test('useReducerEnhancer memo', () => {
+test('withReducer memo', () => {
     const wrapper = testWrapper(
-        useReducerEnhancer(
+        withReducer(
             'state',
             'dispatch',
             (state, action) => {

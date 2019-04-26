@@ -8,7 +8,7 @@ import usePrevious from './utils/usePrevious'
  * @param {Function} createProps
  * @returns {Object}
  */
-const usePropsOnChange = (shouldMapOrKeys, createProps) => (props = {}) => {
+const withPropsOnChange = (shouldMapOrKeys, createProps) => (props = {}) => {
     const previousProps = usePrevious(props)
 
     // eslint-disable-next-line
@@ -26,4 +26,4 @@ const usePropsOnChange = (shouldMapOrKeys, createProps) => (props = {}) => {
     }
 }
 
-export default usePropsOnChange
+export default withPropsOnChange

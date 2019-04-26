@@ -7,7 +7,7 @@ import usePrevious from './utils/usePrevious'
  * @param {} getSpec
  * @returns {Object}
  */
-const useLifecycle = getSpec => (props = {}) => {
+const lifecycle = getSpec => (props = {}) => {
     const [state, setState] = useLegacyState({})
     const previousProps = usePrevious(props) || {}
     const previousState = usePrevious(state) || {}
@@ -20,20 +20,21 @@ const useLifecycle = getSpec => (props = {}) => {
         prevState: previousState,
     }
     const spec = getSpec(self)
-    const shouldUpdate = spec.shouldUpdate ? spec.shouldUpdate() : true
+    const shouldUpdate =
+        typeof spec.shouldUpdate === 'function' ? spec.shouldUpdate() : true
 
     useEffect(() => {
-        if (spec.onMount) spec.onMount()
+        if (typeof spec.onMount === 'function') spec.onMount()
         return () => {
-            if (spec.onUnmount) spec.onUnmount()
+            if (typeof spec.onUnmount === 'function') spec.onUnmount()
         }
     }, [])
 
     useEffect(() => {
-        if (shouldUpdate && spec.onUpdate) spec.onUpdate()
+        if (shouldUpdate && typeof spec.onUpdate === 'function') spec.onUpdate()
     })
 
     return { ...props, ...state }
 }
 
-export default useLifecycle
+export default lifecycle

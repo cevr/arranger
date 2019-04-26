@@ -1,10 +1,10 @@
 /* eslint-env jest */
 
 import testWrapper from '../utils/testWrapper'
-import usePropFlattener from '../usePropFlattener'
+import flattenProp from '../flattenProp'
 
 test('flattens props', () => {
-    const wrapper = testWrapper(usePropFlattener('obj'), {
+    const wrapper = testWrapper(flattenProp('obj'), {
         obj: { a: true, b: false },
     })
 

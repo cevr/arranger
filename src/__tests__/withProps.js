@@ -1,10 +1,10 @@
 /* eslint-env jest */
 
 import testWrapper from '../utils/testWrapper'
-import useProps from '../useProps'
+import withProps from '../withProps'
 
 test('maps props', () => {
-    const wrapper = testWrapper(useProps(({ b }) => ({ b })), {
+    const wrapper = testWrapper(withProps(({ b }) => ({ b })), {
         a: true,
         b: false,
     })

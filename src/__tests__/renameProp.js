@@ -1,7 +1,7 @@
 /* eslint-env jest */
 
 import testWrapper from '../utils/testWrapper'
-import renameProp from '../usePropRenamer'
+import renameProp from '../renameProp'
 
 test('renames prop', () => {
     const wrapper = testWrapper(renameProp('val', 'renamed'), { val: true })

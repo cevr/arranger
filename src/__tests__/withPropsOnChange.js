@@ -2,15 +2,15 @@
 
 import testWrapper from '../utils/testWrapper'
 import pipe from '../pipe'
-import useStateEnhancer from '../useStateEnhancer'
-import usePropsOnChange from '../usePropsOnChange'
+import withState from '../withState'
+import withPropsOnChange from '../withPropsOnChange'
 
 test('maps props using fn true', () => {
     let called = 0
     const wrapper = testWrapper(
         pipe(
-            useStateEnhancer('b', 'setB', 0),
-            usePropsOnChange(
+            withState('b', 'setB', 0),
+            withPropsOnChange(
                 () => true,
                 ({ b }) => {
                     called += 1
@@ -36,8 +36,8 @@ test('maps props using fn false', () => {
     let called = 0
     const wrapper = testWrapper(
         pipe(
-            useStateEnhancer('b', 'setB', 0),
-            usePropsOnChange(
+            withState('b', 'setB', 0),
+            withPropsOnChange(
                 () => false,
                 ({ b }) => {
                     called += 1
@@ -63,8 +63,8 @@ test('maps props using keys', () => {
     let called = 0
     const wrapper = testWrapper(
         pipe(
-            useStateEnhancer('b', 'setB', 0),
-            usePropsOnChange(['b'], ({ b }) => {
+            withState('b', 'setB', 0),
+            withPropsOnChange(['b'], ({ b }) => {
                 called += 1
                 return { b }
             }),

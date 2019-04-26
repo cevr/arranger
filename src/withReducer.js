@@ -6,7 +6,7 @@ import { useReducer, useMemo } from 'react'
  * @param {Function} reducer
  * @param {any} initialState
  */
-const useReducerEnhancer = (
+const withReducer = (
     stateName,
     dispatchName,
     reducer,
@@ -24,4 +24,4 @@ const useReducerEnhancer = (
     return { ...props, [stateName]: state, [dispatchName]: dispatch }
 }
 
-export default useReducerEnhancer
+export default withReducer

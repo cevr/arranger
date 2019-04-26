@@ -2,7 +2,7 @@
  * @param {Object} propMap
  * @returns {Object}
  */
-const usePropsRenamer = propMap => (props = {}) => ({
+const renameProps = propMap => (props = {}) => ({
     // Remove renamed props
     ...Object.entries(props)
         .filter(([key]) => !(key in propMap))
@@ -13,4 +13,4 @@ const usePropsRenamer = propMap => (props = {}) => ({
         .reduce((obj, [k, v]) => ({ ...obj, [k]: v }), {}),
 })
 
-export default usePropsRenamer
+export default renameProps

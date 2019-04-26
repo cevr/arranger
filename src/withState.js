@@ -5,7 +5,7 @@ import { useState } from 'react'
  * @param {string|symbol} stateUpdaterName
  * @param {any} initialState
  */
-const useStateEnhancer = (stateName, stateUpdaterName, initialState) => (
+const withState = (stateName, stateUpdaterName, initialState) => (
     props = {},
 ) => {
     const [state, update] = useState(
@@ -21,4 +21,4 @@ const useStateEnhancer = (stateName, stateUpdaterName, initialState) => (
     }
 }
 
-export default useStateEnhancer
+export default withState

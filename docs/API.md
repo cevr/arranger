@@ -3,21 +3,21 @@ While some of these hooks are not actually hooks, their purpose is to compose to
 ## TOC
 
 -   [Hooks](#Hooks)
-    -   [`usePropsMapper()`](#usePropsMapper)
-    -   [`useProps()`](#useProps)
-    -   [`usePropsOnChange()`](#withpropsonchange)
-    -   [`useHandlers()`](#useHandlers)
-    -   ['useHook()'](#useHook)
-    -   ['useEffectEnhancer()'](#useEffectEnhancer)
-    -   [`useDefaultProps()`](#useDefaultProps)
-    -   [`usePropRenamer()`](#usePropRenamer)
-    -   [`usePropsRenamer()`](#usePropsRenamer)
-    -   [`usePropFlattener()`](#usePropFlattener)
-    -   [`useStateEnhancer()`](#useStateEnhancer)
-    -   [`useStateHandlers()`](#useStateEnhancerhandlers)
-    -   [`useReducerEnhancer()`](#withreducer)
-    -   [`useContextEnhancer()`](#withcontext)
-    -   [`useLifecycle()`](#useLifecycle)
+    -   [`mapProps()`](#mapProps)
+    -   [`withProps()`](#withProps)
+    -   [`withPropsOnChange()`](#withpropsonchange)
+    -   [`withHandlers()`](#withHandlers)
+    -   ['withHook()'](#withHook)
+    -   ['withEffect()'](#withEffect)
+    -   [`defaultProps()`](#defaultProps)
+    -   [`renameProp()`](#renameProp)
+    -   [`renameProps()`](#renameProps)
+    -   [`flattenProp()`](#flattenProp)
+    -   [`withState()`](#withState)
+    -   [`withStateHandlers()`](#useStateEnhancerhandlers)
+    -   [`withReducer()`](#withreducer)
+    -   [`withContext()`](#withcontext)
+    -   [`lifecycle()`](#lifecycle)
     -   [`checkPropTypes()`](#checkPropTypes)
 -   [Utilities](#utilities)
     -   [`compose()`](#compose)
@@ -25,29 +25,29 @@ While some of these hooks are not actually hooks, their purpose is to compose to
 
 ## Hooks
 
-### `usePropsMapper()`
+### `mapProps()`
 
 ```js
-usePropsMapper(
+mapProps(
   propsMapper: (ownerProps: Object) => Object,
 ): (props: Object) => ownerProps
 ```
 
 Accepts a function that maps owner props to a new collection of props that are returned.
 
-### `useProps()`
+### `withProps()`
 
 ```js
-useProps(
+withProps(
   createProps: (ownerProps: Object) => Object | Object
 ): (props: Object) => {...props, ...ownerProps}
 ```
 
-Like `usePropsMapper()`, except the newly created props are merged with the owner props.
+Like `mapProps()`, except the newly created props are merged with the owner props.
 
-Instead of a function, you can also pass a props object directly. In this form, it is similar to `useDefaultProps()`, except the provided props take precedence over props from the owner.
+Instead of a function, you can also pass a props object directly. In this form, it is similar to `defaultProps()`, except the provided props take precedence over props from the owner.
 
-### `usePropsOnChange()`
+### `withPropsOnChange()`
 
 ```js
 withPropsOnChange(
@@ -56,14 +56,14 @@ withPropsOnChange(
 ): (props: Object) => {...props, ...ownerProps}
 ```
 
-Like `useProps()`, except the new props are only created when one of the owner props specified by `shouldMapOrKeys` changes. This helps ensure that expensive computations inside `createProps()` are only executed when necessary.
+Like `withProps()`, except the new props are only created when one of the owner props specified by `shouldMapOrKeys` changes. This helps ensure that expensive computations inside `createProps()` are only executed when necessary.
 
 Instead of an array of prop keys, the first parameter can also be a function that returns a boolean, given the current props and the next props. This allows you to customize when `createProps()` should be called.
 
-### `useHandlers()`
+### `withHandlers()`
 
 ```js
-useHandlers(
+withHandlers(
   handlerCreators: {
     [handlerName: string]: (props: Object) => Function
   } |
@@ -77,14 +77,14 @@ Takes an object map of handler creators or a factory function. These are higher-
 
 This allows the handler to access the current props via closure, without needing to change its signature.
 
-Handlers are merged into the enhanced props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality. This is the main reason to use `useHandlers` to create handlers instead of using `usePropsMapper` or `useProps`, which will create new handlers every time when it get updated.
+Handlers are merged into the enhanced props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality. This is the main reason to use `withHandlers` to create handlers instead of using `mapProps` or `withProps`, which will create new handlers every time when it get updated.
 
 Usage example:
 
 ```js
 const useEnhancer = pipe(
-    useStateEnhancer('value', 'updateValue', ''),
-    useHandlers({
+    withState('value', 'updateValue', ''),
+    withHandlers({
         onChange: props => event => {
             props.updateValue(event.target.value)
         },
@@ -108,10 +108,10 @@ function Form(props) {
 }
 ```
 
-### `useHook()`
+### `withHook()`
 
 ```js
-useHook(
+withHook(
   hookMapper: (props) => mappedProps
 ): (props: Object) => {...mappedProps, ...props}
 ```
@@ -122,8 +122,8 @@ Example:
 
 ```js
 const useEnhancer = pipe(
-    useStateEnhancer('selection', 'setSelection', []),
-    useHook(props => {
+    withState('selection', 'setSelection', []),
+    withHook(props => {
         const users = useStore(state => state.users)
         return { users }
     }),
@@ -135,10 +135,10 @@ function Component(props) {
 }
 ```
 
-### `useEffectEnhancer()`
+### `withEffect()`
 
 ```js
-useEffectEnhancer(effect: props => void, deps: string[]): (props: Object) => {...props}
+withEffect(effect: props => void, deps: string[]): (props: Object) => {...props}
 ```
 
 Like the useEffect hook, this allows you to handle effects inside the enhancer pipe. The `deps` are a list of keys that match the props you are depending on.
@@ -146,7 +146,7 @@ Like the useEffect hook, this allows you to handle effects inside the enhancer p
 Example
 
 ```js
-const useEnhancer = useEffectEnhancer(
+const useEnhancer = withEffect(
     ({ setId, id }) => {
         setId(id)
     },
@@ -154,22 +154,22 @@ const useEnhancer = useEffectEnhancer(
 )
 ```
 
-### `useDefaultProps()`
+### `defaultProps()`
 
 ```js
-useDefaultProps(
+defaultProps(
   defaultProps: Object
 ): (props: Object) => {...defaultProps, ...props}
 ```
 
-Specifies props to be passed by default to the base component. Similar to `useProps()`, except the props from the owner take precedence over props provided by the component.
+Specifies props to be passed by default to the base component. Similar to `withProps()`, except the props from the owner take precedence over props provided by the component.
 
-Although it has a similar effect, using the `useDefaultProps()` hook is _not_ the same as setting the static `defaultProps` property directly on the component.
+Although it has a similar effect, using the `defaultProps()` hook is _not_ the same as setting the static `defaultProps` property directly on the component.
 
-### `usePropRenamer()`
+### `renameProp()`
 
 ```js
-usePropRenamer(
+renameProp(
   oldName: string,
   newName: string
 ): (props: Object) => {...props, [newName]: props[oldName], [oldName]: undefined}
@@ -181,9 +181,9 @@ Example:
 
 ```js
 const useEnhancer = pipe(
-    useProps({ loadingDataFromApi: true, posts: [] }),
-    usePropRenamer('loadingDataFromApi', 'isLoading'),
-    usePropRenamer('posts', 'items'),
+    withProps({ loadingDataFromApi: true, posts: [] }),
+    renameProp('loadingDataFromApi', 'isLoading'),
+    renameProp('posts', 'items'),
 )
 
 function Posts(props) {
@@ -200,10 +200,10 @@ function Posts(props) {
 }
 ```
 
-### `usePropsRenamer()`
+### `renameProps()`
 
 ```js
-usePropsRenamer(
+renameProps(
   nameMap: { [key: string]: string }
 ): (props: Object) => {...props, ...nameMap}
 ```
@@ -214,8 +214,8 @@ Example:
 
 ```js
 const useEnhancer = pipe(
-    useProps({ loadingDataFromApi: true, posts: [] }),
-    usePropsRenamer({ loadingDataFromApi: 'isLoading', posts: 'items' }),
+    withProps({ loadingDataFromApi: true, posts: [] }),
+    renameProps({ loadingDataFromApi: 'isLoading', posts: 'items' }),
 )
 
 function Posts(props) {
@@ -232,10 +232,10 @@ function Posts(props) {
 }
 ```
 
-### `usePropFlattener()`
+### `flattenProp()`
 
 ```js
-usePropFlattener(
+flattenProp(
   propName: string
 ): HigherOrderComponent
 ```
@@ -244,11 +244,11 @@ Flattens a prop so that its fields are spread out into the props object.
 
 ```js
 const useEnhancer = pipe(
-    useProps({
+    withProps({
         object: { a: 'a', b: 'b' },
         c: 'c',
     }),
-    usePropFlattener('object'),
+    flattenProp('object'),
 )
 
 function Component(props) {
@@ -257,11 +257,11 @@ function Component(props) {
 }
 ```
 
-An example use case for `usePropFlattener()` is when receiving fragment data from Relay. Relay fragments are passed as an object of props, which you often want flattened out into its constituent fields:
+An example use case for `flattenProp()` is when receiving fragment data from Relay. Relay fragments are passed as an object of props, which you often want flattened out into its constituent fields:
 
 ```js
 // The `post` prop is an object with title, author, and content fields
-const useEnhancer = usePropFlattener('post')
+const useEnhancer = flattenProp('post')
 function Post(props) {
     const { title, content, author } = useEnhancer(props)
     return (
@@ -274,10 +274,10 @@ function Post(props) {
 }
 ```
 
-### `useStateEnhancer()`
+### `withState()`
 
 ```js
-useStateEnhancer(
+withState(
   stateName: string,
   stateUpdaterName: string,
   initialState: any | (props: Object) => any
@@ -291,12 +291,12 @@ stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
 stateUpdater(newValue: any, ?callback: Function): void
 ```
 
-The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `useHandlers()` to create specific updater functions. For example, to create a hook that adds basic counting functionality to a component:
+The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` to create specific updater functions. For example, to create a hook that adds basic counting functionality to a component:
 
 ```js
 const useCounter = pipe(
-    useStateEnhancer('count', 'setCount', 0),
-    useHandlers({
+    withState('count', 'setCount', 0),
+    withHandlers({
         increment: ({ setCount }) => () => setCount(n => n + 1),
         decrement: ({ setCount }) => () => setCount(n => n - 1),
         reset: ({ setCount }) => () => setCount(0),
@@ -310,10 +310,10 @@ Both forms accept an optional second parameter, a callback function that will be
 
 An initial state value is required. It can be either the state value itself, or a function that returns an initial state given the initial props.
 
-### `useStateHandlers()`
+### `withStateHandlers()`
 
 ```js
-useStateHandlers(
+withStateHandlers(
   initialState: Object | (props: Object) => Object,
   stateHandlers: {
     [key: string]: (state:Object, props:Object) => (...payload: any[]) => Object
@@ -361,10 +361,10 @@ function Counter(props) {
 }
 ```
 
-### `useReducerEnhancer()`
+### `withReducer()`
 
 ```js
-useReducerEnhancer<S, A>(
+withReducer<S, A>(
   stateName: string,
   dispatchName: string,
   reducer: (state: S, action: A) => S,
@@ -372,7 +372,7 @@ useReducerEnhancer<S, A>(
 ): (props: Object) => {...props, [stateName]: initialState, dispatchName}
 ```
 
-Similar to `useStateEnhancer()`, but state updates are applied using a reducer function. A reducer is a function that receives a state and an action, and returns a new state.
+Similar to `withState()`, but state updates are applied using a reducer function. A reducer is a function that receives a state and an action, and returns a new state.
 
 Returns two additional props to the component: a state value, and a dispatch method. The dispatch method has the following signature:
 
@@ -382,32 +382,32 @@ dispatch(action: Object, ?callback: Function): void
 
 It sends an action to the reducer, after which the new state is applied. It also accepts an optional second parameter, a callback function with the new state as its only argument.
 
-### `useContextEnhancer()`
+### `withContext()`
 
 ```js
-useContextEnhancer(
+withContext(
 Context: React.Context, contextMapper: (contextValue) => any | string
 ):(props: Object) => {...props, ...contextMapper}
 ```
 
 Provides context to the component. `Context` is a React.Context, and `contextMapper` provides the key or objectMap to be merged with the props.
 
-### `useLifecycle()`
+### `lifecycle()`
 
 ```js
-useLifecycle(
+lifecycle(
   getSpec: UnaryFn<{props, state, setState, prevProps, prevState}, Spec>
 ): HigherOrderComponent
 ```
 
 A hook version of [`React.Component`](https://facebook.github.io/react/docs/react-api.html#react.component) common lifecycles. It supports only the `onMount`, `onUnmount`, `onUpdate`, and `shouldUpdate` lifecycles. Please note that these are _not_ the same synchronous methods that React calls. They are simulated for easier reasoning.
 
-Any state changes made in a useLifecycle method, by using `setState`, will be propagated to the wrapped component as props.
+Any state changes made in a lifecycle method, by using `setState`, will be propagated to the wrapped component as props.
 
 Example:
 
 ```js
-const useEnhancer = useLifecycle(({ setState, props }) => ({
+const useEnhancer = lifecycle(({ setState, props }) => ({
     onMount() {
         fetchPosts(props.id).then(posts => {
             setState({ posts })
@@ -432,7 +432,7 @@ Alternatively:
 
 ```js
 const useEnhancer = pipe(
-    useLifecycle(({ props, setState }) => ({
+    lifecycle(({ props, setState }) => ({
         onMount() {
             fetchPosts(props.id).then(posts => {
                 setState({ posts })
@@ -440,7 +440,7 @@ const useEnhancer = pipe(
         },
     })),
     // posts will be defaulted
-    useDefaultProps({ posts: [] }),
+    defaultProps({ posts: [] }),
 )
 
 function PostsList(props) {
@@ -470,8 +470,8 @@ Example:
 
 ```js
 const useCounter = pipe(
-    useStateEnhancer('count', 'setCount', 0),
-    useHandlers({
+    withState('count', 'setCount', 0),
+    withHandlers({
         increment: ({ setCount }) => () => setCount(n => n + 1),
         decrement: ({ setCount }) => () => setCount(n => n - 1),
         reset: ({ setCount }) => () => setCount(0),

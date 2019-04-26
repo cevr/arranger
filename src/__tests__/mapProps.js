@@ -1,10 +1,10 @@
 /* eslint-env jest */
 
 import testWrapper from '../utils/testWrapper'
-import usePropsRenamer from '../usePropsMapper'
+import mapProps from '../mapProps'
 
 test('maps props', () => {
-    const wrapper = testWrapper(usePropsRenamer(({ b }) => ({ b })), {
+    const wrapper = testWrapper(mapProps(({ b }) => ({ b })), {
         a: true,
         b: false,
     })

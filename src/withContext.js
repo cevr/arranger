@@ -6,7 +6,7 @@ import { useContext, useMemo } from 'react'
  * @param {Function} propMapper function that maps the consumed context.
  * If not provided, the consumed context will be mapped to `contextValue
  */
-const useContextEnhancer = (context, propMapper) => (props = {}) => {
+const withContext = (context, propMapper) => (props = {}) => {
     const contextValue = useContext(context)
 
     const mappedContext = useMemo(
@@ -23,4 +23,4 @@ const useContextEnhancer = (context, propMapper) => (props = {}) => {
     return { ...props, ...mappedContext }
 }
 
-export default useContextEnhancer
+export default withContext

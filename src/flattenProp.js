@@ -2,9 +2,9 @@
  * @param {string|symbol} propName
  * @returns {Object}
  */
-const usePropFlattener = propName => (props = {}) => ({
+const flattenProp = propName => (props = {}) => ({
     ...props,
     ...props[propName],
 })
 
-export default usePropFlattener
+export default flattenProp

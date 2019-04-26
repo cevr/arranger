@@ -1,7 +1,10 @@
 import { useEffect } from 'react'
 
-const useEffectEnhancer = effect => (props = {}) => {
-    useEffect(() => effect(props), [props])
+import pick from './utils/pick'
+
+const useEffectEnhancer = (deps, effect) => (props = {}) => {
+    const effectDeps = pick(deps, props)
+    useEffect(() => effect(props), effectDeps)
 
     return { ...props }
 }

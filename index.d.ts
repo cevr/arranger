@@ -306,6 +306,7 @@ export function useHook<Props, Enhanced>(
     hookMapper: Enhanced | UnaryFn<Props, Enhanced>,
 ): (props: Props) => Props & Enhanced
 
-// export function useEffectEnhancer<Props, Effect>(
-//     effect: UnaryFn<Props, Effect>,
-// ): (props: Props) => Props
+export function useEffectEnhancer<Props, Effect>(
+    deps: string[],
+    effect: UnaryFn<Props, Effect>,
+): (props: Props) => Props

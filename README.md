@@ -1,6 +1,6 @@
 ## Re-Enhance
 
-Re-Enhance is a React utility belt for React hooks. It carries on the work of that Recompose started.
+Re-Enhance is a React utility belt for React hooks. It merges the API of `recompose` with hooks.
 
 [**Full API documentation**](docs/API.md) - Learn about each helper
 
@@ -18,7 +18,7 @@ yarn add re-enhance
 
 I think with the introduction of hooks, we have finally made a great innovation in the methodology of front-end design. With hooks, there will be the rise of new paradigms!
 
-However, I've noticed that composing many hooks together for bigger components can leave a lot of business logic cluttering the presentational login inside a component. Recompose allowed one to separate these concerns, and Re-Enhance continues where it left off.
+However, I've noticed that composing many hooks together for bigger components can leave a lot of business logic cluttering the presentational login inside a component. Recompose allowed one to visually separate these concerns, and Re-Enhance continues where it left off.
 
 ## Usage
 

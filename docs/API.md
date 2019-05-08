@@ -5,7 +5,7 @@ While some of these hooks are not actually hooks, their purpose is to compose to
 -   [Hooks](#Hooks)
     -   [`mapProps()`](#mapProps)
     -   [`withProps()`](#withProps)
-    -   [`withPropsOnChange()`](#withpropsonchange)
+    -   [`withPropsOnChange()`](#withPropsOnChange)
     -   [`withHandlers()`](#withHandlers)
     -   [`withHook()`](#withHook)
     -   [`withEffect()`](#withEffect)
@@ -14,7 +14,7 @@ While some of these hooks are not actually hooks, their purpose is to compose to
     -   [`renameProps()`](#renameProps)
     -   [`flattenProp()`](#flattenProp)
     -   [`withState()`](#withState)
-    -   [`withStateHandlers()`](#useStateEnhancerhandlers)
+    -   [`withStateHandlers()`](#withStateHandlers)
     -   [`withReducer()`](#withreducer)
     -   [`withContext()`](#withcontext)
     -   [`lifecycle()`](#lifecycle)
@@ -331,15 +331,15 @@ Returning undefined does not cause a component rerender.
 Example:
 
 ```js
-const useCounter = useStateEnhancerHandlers(
+const useCounter = withStateHandlers(
     ({ initialCounter = 0 }) => ({
         counter: initialCounter,
     }),
     {
-        incrementOn: ({ counter }) => value => ({
+        increment: ({ counter }) => value => ({
             counter: counter + value,
         }),
-        decrementOn: ({ counter }) => value => ({
+        decrement: ({ counter }) => value => ({
             counter: counter - value,
         }),
         resetCounter: (_, { initialCounter = 0 }) => () => ({
@@ -348,13 +348,13 @@ const useCounter = useStateEnhancerHandlers(
     },
 )
 function Counter(props) {
-    const { counter, incrementOn, decrementOn, resetCounter } = useCounter(
+    const { counter, increment, decrement, resetCounter } = useCounter(
         props,
     )
     return (
         <div>
-            <Button onClick={() => incrementOn(2)}>Inc</Button>
-            <Button onClick={() => decrementOn(3)}>Dec</Button>
+            <Button onClick={() => increment(2)}>Inc</Button>
+            <Button onClick={() => decrement(3)}>Dec</Button>
             <Button onClick={resetCounter}>Reset</Button>
         </div>
     )

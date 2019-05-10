@@ -5,7 +5,6 @@ While some of these hooks are not actually hooks, their purpose is to compose to
 -   [Hooks](#Hooks)
     -   [`mapProps()`](#mapProps)
     -   [`makeProps()`](#makeProps)
-    -   [`withPropsOnChange()`](#withpropsonchange)
     -   [`makeHandlers()`](#makeHandlers)
     -   ['makeHook()'](#makeHook)
     -   ['makeEffect()'](#makeEffect)
@@ -46,19 +45,6 @@ makeProps(
 Like `mapProps()`, except the newly created props are merged with the owner props.
 
 Instead of a function, you can also pass a props object directly. In this form, it is similar to `defaultProps()`, except the provided props take precedence over props from the owner.
-
-### `withPropsOnChange()`
-
-```js
-withPropsOnChange(
-  shouldMapOrKeys: Array<string> | (props: Object, nextProps: Object) => boolean,
-  createProps: (ownerProps: Object) => Object
-): (props: Object) => {...props, ...ownerProps}
-```
-
-Like `makeProps()`, except the new props are only created when one of the owner props specified by `shouldMapOrKeys` changes. This helps ensure that expensive computations inside `createProps()` are only executed when necessary.
-
-Instead of an array of prop keys, the first parameter can also be a function that returns a boolean, given the current props and the next props. This allows you to customize when `createProps()` should be called.
 
 ### `makeHandlers()`
 
@@ -331,15 +317,15 @@ Returning undefined does not cause a component rerender.
 Example:
 
 ```js
-const useCounter = useStateEnhancerHandlers(
+const useCounter = withStateHandlers(
     ({ initialCounter = 0 }) => ({
         counter: initialCounter,
     }),
     {
-        incrementOn: ({ counter }) => value => ({
+        increment: ({ counter }) => value => ({
             counter: counter + value,
         }),
-        decrementOn: ({ counter }) => value => ({
+        decrement: ({ counter }) => value => ({
             counter: counter - value,
         }),
         resetCounter: (_, { initialCounter = 0 }) => () => ({
@@ -348,13 +334,11 @@ const useCounter = useStateEnhancerHandlers(
     },
 )
 function Counter(props) {
-    const { counter, incrementOn, decrementOn, resetCounter } = useCounter(
-        props,
-    )
+    const { counter, increment, decrement, resetCounter } = useCounter(props)
     return (
         <div>
-            <Button onClick={() => incrementOn(2)}>Inc</Button>
-            <Button onClick={() => decrementOn(3)}>Dec</Button>
+            <Button onClick={() => increment(2)}>Inc</Button>
+            <Button onClick={() => decrement(3)}>Dec</Button>
             <Button onClick={resetCounter}>Reset</Button>
         </div>
     )

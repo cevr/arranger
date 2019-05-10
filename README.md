@@ -25,7 +25,7 @@ However, I've noticed that composing many hooks together for bigger components c
 All functions are available on the top-level export.
 
 ```js
-import { pipe, usePropMapper, makeState /* ... */ } from 'arranger'
+import { pipe, mapProps, makeState /* ... */ } from 'arranger'
 ```
 
 ### Composition
@@ -45,12 +45,12 @@ const enhance = compose(
 const EnhancedComponent = enhance(BaseComponent)
 ```
 
-#### arranger
+#### Arranger
 
 ```js
 const useEnhancer = pipe(
     makeState(/*...args*/),
-    usePropMapper(/*...args*/),
+    mapProps(/*...args*/),
     /*pure cannot be hooked 😔*/
 )
 

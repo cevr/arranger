@@ -224,16 +224,16 @@ declare interface Self<Props, State> {
     prevState: State
 }
 
-declare type GetSpec = (self: Self) => Spec
+declare type GetSpec<Props, State> = (self: Self<Props, State>) => Spec
 
 declare type UnaryFn<A, R> = (a: A) => R
 
 export function lifecycle<Props, Enhanced>(
-    getSpec: GetSpec,
+    getSpec: GetSpec<Props, Enhanced>,
 ): (props: Props) => Props & Enhanced
 
 export function makeContext<Props, Enhanced>(
-    context: React.Context,
+    context: any,
     contextMapper: void | UnaryFn<any, Enhanced>,
 ): (props: Props) => Props & Enhanced
 
@@ -284,13 +284,13 @@ interface StateHandlers<State, Props> {
     [key: string]: (
         state: State,
         props: Props,
-    ) => (...payload: any[]) => $Shape<State>
+    ) => (...payload: any[]) => State & Props
 }
 
-export function makeStateHandlers<State, Props>(
+export function makeStateHandlers<State, Props, Handlers>(
     initialState: State | UnaryFn<Props, State>,
-    stateHandlers: StateHandlers,
-): (props: Props) => State & Props
+    stateHandlers: Handlers,
+): (props: Props) => State & Props & Handlers
 
 export function checkPropTypes<Props>(
     propTypes: React.ReactPropTypes,
@@ -305,3 +305,8 @@ export function makeEffect<Props, Effect>(
     effect: UnaryFn<Props, Effect>,
     deps: string[],
 ): (props: Props) => Props
+
+export function makeMemo<Props, Mapped>(
+    mapper: UnaryFn<Props, UnaryFn<any, Mapped>> | UnaryFn<any, Mapped>,
+    deps: string[],
+): (props: Props) => Props & Mapped

@@ -1,7 +1,7 @@
-const withHook = mapper => (props = {}) => {
+const makeHook = mapper => (props = {}) => {
     const mapped = typeof mapper === 'function' ? mapper(props) : mapper
 
     return { ...props, ...mapped }
 }
 
-export default withHook
+export default makeHook

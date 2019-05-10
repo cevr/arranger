@@ -6,7 +6,7 @@ import { useContext, useMemo } from 'react'
  * @param {Function} propMapper function that maps the consumed context.
  * If not provided, the consumed context will be mapped to `contextValue
  */
-const withContext = (context, propMapper) => (props = {}) => {
+const makeContext = (context, propMapper) => (props = {}) => {
     const contextValue = useContext(context)
 
     const mappedContext = useMemo(
@@ -23,4 +23,4 @@ const withContext = (context, propMapper) => (props = {}) => {
     return { ...props, ...mappedContext }
 }
 
-export default withContext
+export default makeContext

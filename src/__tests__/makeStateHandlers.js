@@ -1,11 +1,11 @@
 /* eslint-env jest */
 
 import testWrapper from '../utils/testWrapper'
-import withStateHandlers from '../withStateHandlers'
+import makeStateHandlers from '../makeStateHandlers'
 
-test('withStateHandlers', () => {
+test('makeStateHandlers', () => {
     const wrapper = testWrapper(
-        withStateHandlers(
+        makeStateHandlers(
             { b: false },
             {
                 handle: () => ({ b }) => ({ b }),
@@ -18,9 +18,9 @@ test('withStateHandlers', () => {
     expect(wrapper.getProps().b).toEqual(true)
 })
 
-test('withStateHandlers calling undefined', () => {
+test('makeStateHandlers calling undefined', () => {
     const wrapper = testWrapper(
-        withStateHandlers(
+        makeStateHandlers(
             { b: false },
             {
                 handle: () => () => undefined,
@@ -33,9 +33,9 @@ test('withStateHandlers calling undefined', () => {
     expect(wrapper.getProps().b).toEqual(false)
 })
 
-test('withStateHandlers memo', () => {
+test('makeStateHandlers memo', () => {
     const wrapper = testWrapper(
-        withStateHandlers(() => ({ b: false }), {
+        makeStateHandlers(() => ({ b: false }), {
             handle: () => ({ b }) => ({ b }),
         }),
         {},

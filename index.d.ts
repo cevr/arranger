@@ -232,7 +232,7 @@ export function lifecycle<Props, Enhanced>(
     getSpec: GetSpec,
 ): (props: Props) => Props & Enhanced
 
-export function withContext<Props, Enhanced>(
+export function makeContext<Props, Enhanced>(
     context: React.Context,
     contextMapper: void | UnaryFn<any, Enhanced>,
 ): (props: Props) => Props & Enhanced
@@ -241,7 +241,7 @@ export function defaultProps<Props, Enhanced>(
     defaultProps: Enhanced,
 ): (props: Props) => Props & Enhanced
 
-export function withHandlers<Props, Handlers>(
+export function makeHandlers<Props, Handlers>(
     handlers: Handlers,
 ): (props: Props) => Props & Handlers
 
@@ -254,7 +254,7 @@ export function renameProp<T, K extends keyof T>(
     newName: string,
 ): (props: T) => T
 
-export function withProps<Props, Enhanced>(
+export function makeProps<Props, Enhanced>(
     createProps: Enhanced | UnaryFn<Props, Enhanced>,
 ): (props: Props) => Props & Enhanced
 
@@ -262,16 +262,11 @@ export function mapProps<Props, Enhanced>(
     propsMapper: UnaryFn<Props, Enhanced>,
 ): (props: Props) => Enhanced
 
-export function withPropsOnChange<Props, Enhanced>(
-    shouldMapOrKeys: string[] | UnaryFn<Props, Boolean>,
-    createProps: UnaryFn<Props, Enhanced>,
-): (props: Props) => Props & Enhanced
-
 export function renameProps<Props, Enhanced>(
     nameMap: UnaryFn<Props, Enhanced>,
 ): (props: Props) => Props & Enhanced
 
-export function withReducer<Props, Action, State>(
+export function makeReducer<Props, Action, State>(
     stateName: string,
     dispatchName: string,
     reducer: (state: State, action: Action) => State,
@@ -279,7 +274,7 @@ export function withReducer<Props, Action, State>(
     initalAction: Action,
 ): (props: Props) => Props & State
 
-export function withState<Props, State>(
+export function makeState<Props, State>(
     stateName: string,
     stateUpdaterName: string,
     initialState: State | UnaryFn<Props, State>,
@@ -292,7 +287,7 @@ interface StateHandlers<State, Props> {
     ) => (...payload: any[]) => $Shape<State>
 }
 
-export function withStateHandlers<State, Props>(
+export function makeStateHandlers<State, Props>(
     initialState: State | UnaryFn<Props, State>,
     stateHandlers: StateHandlers,
 ): (props: Props) => State & Props
@@ -302,11 +297,11 @@ export function checkPropTypes<Props>(
     componentName: string,
 ): (props: Props) => Props
 
-export function withHook<Props, Enhanced>(
+export function makeHook<Props, Enhanced>(
     hookMapper: Enhanced | UnaryFn<Props, Enhanced>,
 ): (props: Props) => Props & Enhanced
 
-export function withEffect<Props, Effect>(
+export function makeEffect<Props, Effect>(
     effect: UnaryFn<Props, Effect>,
     deps: string[],
 ): (props: Props) => Props

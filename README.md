@@ -1,15 +1,15 @@
-## Re-Enhance
+## arranger
 
-Re-Enhance is a React utility belt for React hooks. It merges the API of `recompose` with hooks.
+arranger is a React utility belt for React hooks. It merges the API of `recompose` with hooks.
 
 [**Full API documentation**](docs/API.md) - Learn about each helper
 
 ```
-npm install re-enhance
+npm install arranger
 ```
 
 ```
-yarn add re-enhance
+yarn add arranger
 ```
 
 ## Why
@@ -18,19 +18,19 @@ yarn add re-enhance
 
 I think with the introduction of hooks, we have finally made a great innovation in the methodology of front-end design. With hooks, there will be the rise of new paradigms!
 
-However, I've noticed that composing many hooks together for bigger components can leave a lot of business logic cluttering the presentational login inside a component. Recompose allowed one to visually separate these concerns, and Re-Enhance continues where it left off.
+However, I've noticed that composing many hooks together for bigger components can leave a lot of business logic cluttering the presentational login inside a component. Recompose allowed one to visually separate these concerns, and arranger continues where it left off.
 
 ## Usage
 
 All functions are available on the top-level export.
 
 ```js
-import { pipe, usePropMapper, withState /* ... */ } from 're-enhance'
+import { pipe, usePropMapper, makeState /* ... */ } from 'arranger'
 ```
 
 ### Composition
 
-Re-Enhance helpers are designed to be composable. It maintains much of the patterns of `recompose` but with a slight change.
+arranger helpers are designed to be composable. It maintains much of the patterns of `recompose` but with a slight change.
 
 #### Recompose
 
@@ -38,18 +38,18 @@ Re-Enhance helpers are designed to be composable. It maintains much of the patte
 const BaseComponent = props => {...}
 
 const enhance = compose(
-  withState(/*...args*/),
+  makeState(/*...args*/),
   mapProps(/*...args*/),
   pure
 )
 const EnhancedComponent = enhance(BaseComponent)
 ```
 
-#### Re-Enhance
+#### arranger
 
 ```js
 const useEnhancer = pipe(
-    withState(/*...args*/),
+    makeState(/*...args*/),
     usePropMapper(/*...args*/),
     /*pure cannot be hooked 😔*/
 )
@@ -65,11 +65,11 @@ const BaseComponent = React.memo(props => {
 
 ```js
 import React from 'react'
-import { pipe, withHandlers, withState } from 're-enhance'
+import { pipe, makeHandlers, makeState } from 'arranger'
 
 const useEnhancer = pipe(
-    withState('count', 'setCounter', 0),
-    withHandlers({
+    makeState('count', 'setCounter', 0),
+    makeHandlers({
         inc: ({ setCounter }) => () => setCounter(count => count + 1),
         dec: ({ setCounter }) => () => setCounter(count => count - 1),
     }),

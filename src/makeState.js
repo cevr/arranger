@@ -5,7 +5,7 @@ import { useState } from 'react'
  * @param {string|symbol} stateUpdaterName
  * @param {any} initialState
  */
-const withState = (stateName, stateUpdaterName, initialState) => (
+const makeState = (stateName, stateUpdaterName, initialState) => (
     props = {},
 ) => {
     const [state, update] = useState(
@@ -21,4 +21,4 @@ const withState = (stateName, stateUpdaterName, initialState) => (
     }
 }
 
-export default withState
+export default makeState

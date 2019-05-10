@@ -39,7 +39,7 @@ try {
         exit(1)
     }
 
-    const packageName = 're-enhance'
+    const packageName = 'arranger'
 
     const versionLoc = path.resolve(PACKAGES_SRC_DIR, 'VERSION')
     const version = fs.readFileSync(versionLoc, 'utf8').trim()
@@ -141,7 +141,7 @@ try {
     exec(`git add ${versionLoc}`)
     exec(`git commit -m "${packageName} ${newTagName}"`)
 
-    if (packageName === 're-enhance') {
+    if (packageName === 'arranger') {
         log(`Tagging release... (${newTagName})`)
         exec(`git tag ${newTagName}`)
     }

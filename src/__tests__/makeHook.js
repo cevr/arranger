@@ -2,13 +2,13 @@
 import { useState } from 'react'
 
 import testWrapper from '../utils/testWrapper'
-import withHook from '../withHook'
+import makeHook from '../makeHook'
 
 test('maps hooks to props', () => {
     let name
     let setName
     const wrapper = testWrapper(
-        withHook(props => {
+        makeHook(props => {
             ;[name, setName] = useState(props.name)
             return { name, setName }
         }),

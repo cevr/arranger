@@ -2,9 +2,9 @@
  *
  * @param {Function|Object} fn
  */
-const withProps = fn => (props = {}) => ({
+const makeProps = fn => (props = {}) => ({
     ...props,
     ...(typeof fn === 'function' ? fn(props) : fn),
 })
 
-export default withProps
+export default makeProps

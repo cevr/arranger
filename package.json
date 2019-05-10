@@ -1,15 +1,15 @@
 {
-  "name": "re-enhance-build",
+  "name": "arranger-build",
   "private": true,
   "author": "Cristian Velasquez Ramos <hello@cevr.ca>",
   "repository": {
     "type": "git",
-    "url": "git://github.com/cevr/re-enhance.git"
+    "url": "git://github.com/cevr/arranger.git"
   },
   "license": "MIT",
   "scripts": {
     "lint": "eslint scripts src",
-    "build": "cross-env PACKAGE_NAME=re-enhance rollup --config scripts/rollup.config.js",
+    "build": "cross-env PACKAGE_NAME=arranger rollup --config scripts/rollup.config.js",
     "test": "jest && cross-env SNAPSHOT=match npm run build",
     "test:watch": "cross-env BABEL_ENV=cjs jest --watch",
     "release": "node scripts/release.js",

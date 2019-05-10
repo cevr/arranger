@@ -2,11 +2,11 @@
     "author": "Cristian Velasquez Ramos <hello@cevr.ca>",
     "repository": {
         "type": "git",
-        "url": "https://github.com/cevr/re-enhance.git"
+        "url": "https://github.com/cevr/arranger.git"
     },
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/cevr/re-enhance/issues"
+        "url": "https://github.com/cevr/arranger/issues"
     },
-    "homepage": "https://github.com/cevr/re-enhance"
+    "homepage": "https://github.com/cevr/arranger"
 }

@@ -4,19 +4,19 @@ While some of these hooks are not actually hooks, their purpose is to compose to
 
 -   [Hooks](#Hooks)
     -   [`mapProps()`](#mapProps)
-    -   [`withProps()`](#withProps)
+    -   [`makeProps()`](#makeProps)
     -   [`withPropsOnChange()`](#withpropsonchange)
-    -   [`withHandlers()`](#withHandlers)
-    -   ['withHook()'](#withHook)
-    -   ['withEffect()'](#withEffect)
+    -   [`makeHandlers()`](#makeHandlers)
+    -   ['makeHook()'](#makeHook)
+    -   ['makeEffect()'](#makeEffect)
     -   [`defaultProps()`](#defaultProps)
     -   [`renameProp()`](#renameProp)
     -   [`renameProps()`](#renameProps)
     -   [`flattenProp()`](#flattenProp)
-    -   [`withState()`](#withState)
-    -   [`withStateHandlers()`](#useStateEnhancerhandlers)
-    -   [`withReducer()`](#withreducer)
-    -   [`withContext()`](#withcontext)
+    -   [`makeState()`](#makeState)
+    -   [`makeStateHandlers()`](#useStateEnhancerhandlers)
+    -   [`makeReducer()`](#withreducer)
+    -   [`makeContext()`](#withcontext)
     -   [`lifecycle()`](#lifecycle)
     -   [`checkPropTypes()`](#checkPropTypes)
 -   [Utilities](#utilities)
@@ -35,10 +35,10 @@ mapProps(
 
 Accepts a function that maps owner props to a new collection of props that are returned.
 
-### `withProps()`
+### `makeProps()`
 
 ```js
-withProps(
+makeProps(
   createProps: (ownerProps: Object) => Object | Object
 ): (props: Object) => {...props, ...ownerProps}
 ```
@@ -56,14 +56,14 @@ withPropsOnChange(
 ): (props: Object) => {...props, ...ownerProps}
 ```
 
-Like `withProps()`, except the new props are only created when one of the owner props specified by `shouldMapOrKeys` changes. This helps ensure that expensive computations inside `createProps()` are only executed when necessary.
+Like `makeProps()`, except the new props are only created when one of the owner props specified by `shouldMapOrKeys` changes. This helps ensure that expensive computations inside `createProps()` are only executed when necessary.
 
 Instead of an array of prop keys, the first parameter can also be a function that returns a boolean, given the current props and the next props. This allows you to customize when `createProps()` should be called.
 
-### `withHandlers()`
+### `makeHandlers()`
 
 ```js
-withHandlers(
+makeHandlers(
   handlerCreators: {
     [handlerName: string]: (props: Object) => Function
   } |
@@ -77,14 +77,14 @@ Takes an object map of handler creators or a factory function. These are higher-
 
 This allows the handler to access the current props via closure, without needing to change its signature.
 
-Handlers are merged into the enhanced props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality. This is the main reason to use `withHandlers` to create handlers instead of using `mapProps` or `withProps`, which will create new handlers every time when it get updated.
+Handlers are merged into the enhanced props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality. This is the main reason to use `makeHandlers` to create handlers instead of using `mapProps` or `makeProps`, which will create new handlers every time when it get updated.
 
 Usage example:
 
 ```js
 const useEnhancer = pipe(
-    withState('value', 'updateValue', ''),
-    withHandlers({
+    makeState('value', 'updateValue', ''),
+    makeHandlers({
         onChange: props => event => {
             props.updateValue(event.target.value)
         },
@@ -108,10 +108,10 @@ function Form(props) {
 }
 ```
 
-### `withHook()`
+### `makeHook()`
 
 ```js
-withHook(
+makeHook(
   hookMapper: (props) => mappedProps
 ): (props: Object) => {...mappedProps, ...props}
 ```
@@ -122,8 +122,8 @@ Example:
 
 ```js
 const useEnhancer = pipe(
-    withState('selection', 'setSelection', []),
-    withHook(props => {
+    makeState('selection', 'setSelection', []),
+    makeHook(props => {
         const users = useStore(state => state.users)
         return { users }
     }),
@@ -135,10 +135,10 @@ function Component(props) {
 }
 ```
 
-### `withEffect()`
+### `makeEffect()`
 
 ```js
-withEffect(effect: props => void, deps: string[]): (props: Object) => {...props}
+makeEffect(effect: props => void, deps: string[]): (props: Object) => {...props}
 ```
 
 Like the useEffect hook, this allows you to handle effects inside the enhancer pipe. The `deps` are a list of keys that match the props you are depending on.
@@ -146,7 +146,7 @@ Like the useEffect hook, this allows you to handle effects inside the enhancer p
 Example
 
 ```js
-const useEnhancer = withEffect(
+const useEnhancer = makeEffect(
     ({ setId, id }) => {
         setId(id)
     },
@@ -162,7 +162,7 @@ defaultProps(
 ): (props: Object) => {...defaultProps, ...props}
 ```
 
-Specifies props to be passed by default to the base component. Similar to `withProps()`, except the props from the owner take precedence over props provided by the component.
+Specifies props to be passed by default to the base component. Similar to `makeProps()`, except the props from the owner take precedence over props provided by the component.
 
 Although it has a similar effect, using the `defaultProps()` hook is _not_ the same as setting the static `defaultProps` property directly on the component.
 
@@ -181,7 +181,7 @@ Example:
 
 ```js
 const useEnhancer = pipe(
-    withProps({ loadingDataFromApi: true, posts: [] }),
+    makeProps({ loadingDataFromApi: true, posts: [] }),
     renameProp('loadingDataFromApi', 'isLoading'),
     renameProp('posts', 'items'),
 )
@@ -214,7 +214,7 @@ Example:
 
 ```js
 const useEnhancer = pipe(
-    withProps({ loadingDataFromApi: true, posts: [] }),
+    makeProps({ loadingDataFromApi: true, posts: [] }),
     renameProps({ loadingDataFromApi: 'isLoading', posts: 'items' }),
 )
 
@@ -244,7 +244,7 @@ Flattens a prop so that its fields are spread out into the props object.
 
 ```js
 const useEnhancer = pipe(
-    withProps({
+    makeProps({
         object: { a: 'a', b: 'b' },
         c: 'c',
     }),
@@ -274,10 +274,10 @@ function Post(props) {
 }
 ```
 
-### `withState()`
+### `makeState()`
 
 ```js
-withState(
+makeState(
   stateName: string,
   stateUpdaterName: string,
   initialState: any | (props: Object) => any
@@ -291,12 +291,12 @@ stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
 stateUpdater(newValue: any, ?callback: Function): void
 ```
 
-The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `withHandlers()` to create specific updater functions. For example, to create a hook that adds basic counting functionality to a component:
+The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `makeHandlers()` to create specific updater functions. For example, to create a hook that adds basic counting functionality to a component:
 
 ```js
 const useCounter = pipe(
-    withState('count', 'setCount', 0),
-    withHandlers({
+    makeState('count', 'setCount', 0),
+    makeHandlers({
         increment: ({ setCount }) => () => setCount(n => n + 1),
         decrement: ({ setCount }) => () => setCount(n => n - 1),
         reset: ({ setCount }) => () => setCount(0),
@@ -310,10 +310,10 @@ Both forms accept an optional second parameter, a callback function that will be
 
 An initial state value is required. It can be either the state value itself, or a function that returns an initial state given the initial props.
 
-### `withStateHandlers()`
+### `makeStateHandlers()`
 
 ```js
-withStateHandlers(
+makeStateHandlers(
   initialState: Object | (props: Object) => Object,
   stateHandlers: {
     [key: string]: (state:Object, props:Object) => (...payload: any[]) => Object
@@ -361,10 +361,10 @@ function Counter(props) {
 }
 ```
 
-### `withReducer()`
+### `makeReducer()`
 
 ```js
-withReducer<S, A>(
+makeReducer<S, A>(
   stateName: string,
   dispatchName: string,
   reducer: (state: S, action: A) => S,
@@ -372,7 +372,7 @@ withReducer<S, A>(
 ): (props: Object) => {...props, [stateName]: initialState, dispatchName}
 ```
 
-Similar to `withState()`, but state updates are applied using a reducer function. A reducer is a function that receives a state and an action, and returns a new state.
+Similar to `makeState()`, but state updates are applied using a reducer function. A reducer is a function that receives a state and an action, and returns a new state.
 
 Returns two additional props to the component: a state value, and a dispatch method. The dispatch method has the following signature:
 
@@ -382,10 +382,10 @@ dispatch(action: Object, ?callback: Function): void
 
 It sends an action to the reducer, after which the new state is applied. It also accepts an optional second parameter, a callback function with the new state as its only argument.
 
-### `withContext()`
+### `makeContext()`
 
 ```js
-withContext(
+makeContext(
 Context: React.Context, contextMapper: (contextValue) => any | string
 ):(props: Object) => {...props, ...contextMapper}
 ```
@@ -470,8 +470,8 @@ Example:
 
 ```js
 const useCounter = pipe(
-    withState('count', 'setCount', 0),
-    withHandlers({
+    makeState('count', 'setCount', 0),
+    makeHandlers({
         increment: ({ setCount }) => () => setCount(n => n + 1),
         decrement: ({ setCount }) => () => setCount(n => n - 1),
         reset: ({ setCount }) => () => setCount(0),
@@ -487,7 +487,7 @@ const useCounter = pipe(
 
 ## Utilities
 
-Re-Enhance also includes some additional helpers that aren't hooks.
+arranger also includes some additional helpers that aren't hooks.
 
 ### `compose()`
 

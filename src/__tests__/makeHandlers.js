@@ -1,12 +1,12 @@
 /* eslint-env jest */
 
 import testWrapper from '../utils/testWrapper'
-import withHandlers from '../withHandlers'
+import makeHandlers from '../makeHandlers'
 
-test('withHandlers', () => {
+test('makeHandlers', () => {
     let result = null
     const wrapper = testWrapper(
-        withHandlers({
+        makeHandlers({
             handle: ({ a }) => ({ b }) => (result = { a, b }),
         }),
         { a: true },
@@ -19,11 +19,11 @@ test('withHandlers', () => {
     expect(result).toEqual({ a: false, b: false })
 })
 
-test('withHandlers memo', () => {
+test('makeHandlers memo', () => {
     let result = null
     let called = 0
     const wrapper = testWrapper(
-        withHandlers(() => {
+        makeHandlers(() => {
             called += 1
             return {
                 handle: ({ a }) => ({ b }) => (result = { a, b }),

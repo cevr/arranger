@@ -1,23 +1,21 @@
 {
-  "description": "A React utility belt for function components using React Hooks",
+  "description": "A React utility belt for hook composition",
   "keywords": [
     "react",
     "hooks",
     "react-hooks",
-    "components",
-    "microcomponentization",
     "toolkit",
     "utilities",
     "composition"
   ],
    "repository": {
     "type": "git",
-    "url": "git+https://github.com/cevr/re-enhance.git"
+    "url": "git+https://github.com/cevr/arranger.git"
   },
   "publishConfig": { "registry": "https://registry.npmjs.org/" },
   "typings": "./index.d.ts",
-  "main": "dist/ReEnhance.cjs.js",
-  "module": "dist/ReEnhance.esm.js",
+  "main": "dist/Arranger.cjs.js",
+  "module": "dist/Arranger.esm.js",
   "dependencies": {
     "@babel/runtime": "^7.0.0"
   },

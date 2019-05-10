@@ -9,7 +9,7 @@ import mapValues from './utils/mapValues'
  * @param {Object} handlers
  * @returns {Object}
  */
-const withStateHandlers = (initialValue, handlers) => (props = {}) => {
+const makeStateHandlers = (initialValue, handlers) => (props = {}) => {
     const [state, setState] = useLegacyState(
         typeof initialValue === 'function'
             ? () => initialValue(props)
@@ -31,4 +31,4 @@ const withStateHandlers = (initialValue, handlers) => (props = {}) => {
     return { ...props, ...state, ...boundHandlers }
 }
 
-export default withStateHandlers
+export default makeStateHandlers

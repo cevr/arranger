@@ -6,7 +6,7 @@ import { useReducer, useMemo } from 'react'
  * @param {Function} reducer
  * @param {any} initialState
  */
-const withReducer = (
+const makeReducer = (
     stateName,
     dispatchName,
     reducer,
@@ -24,4 +24,4 @@ const withReducer = (
     return { ...props, [stateName]: state, [dispatchName]: dispatch }
 }
 
-export default withReducer
+export default makeReducer

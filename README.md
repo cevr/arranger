@@ -1,6 +1,6 @@
-## arranger
+## Arranger
 
-arranger is a React utility belt for React hooks. It merges the API of `recompose` with hooks.
+`arranger` is a React utility belt for React hooks. It merges the API of `recompose` with hooks.
 
 [**Full API documentation**](docs/API.md) - Learn about each helper
 

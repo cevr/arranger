@@ -3,48 +3,118 @@ While some of these hooks are not actually hooks, their purpose is to compose to
 ## TOC
 
 -   [Hooks](#Hooks)
-    -   [`mapProps()`](#mapProps)
-    -   [`makeProps()`](#makeProps)
+    -   [`lifecycle()`](#lifecycle)
+    -   [`makeContext()`](#makeContext)
+    -   [`makeEffect()`](#makeEffect)
     -   [`makeHandlers()`](#makeHandlers)
-    -   ['makeHook()'](#makeHook)
-    -   ['makeEffect()'](#makeEffect)
+    -   [`makeHook()`](#makeHook)
+    -   [`makeMemo()`](#makeMemo)
+    -   [`makeProps()`](#makeProps)
+    -   [`makeState()`](#makeState)
+    -   [`makeStateHandlers()`](#makeStateHandlers)
+    -   [`makeReducer()`](#makeReducer)
+-   [Utilities](#utilities)
+    -   [`checkPropTypes()`](#checkPropTypes)
+    -   [`compose()`](#compose)
     -   [`defaultProps()`](#defaultProps)
+    -   [`flattenProp()`](#flattenProp)
+    -   [`pipe()`](#pipe)
     -   [`renameProp()`](#renameProp)
     -   [`renameProps()`](#renameProps)
-    -   [`flattenProp()`](#flattenProp)
-    -   [`makeState()`](#makeState)
-    -   [`makeStateHandlers()`](#useStateEnhancerhandlers)
-    -   [`makeReducer()`](#withreducer)
-    -   [`makeContext()`](#withcontext)
-    -   [`lifecycle()`](#lifecycle)
-    -   [`checkPropTypes()`](#checkPropTypes)
--   [Utilities](#utilities)
-    -   [`compose()`](#compose)
-    -   [`pipe()`](#pipe)
 
 ## Hooks
 
-### `mapProps()`
+### `lifecycle()`
 
 ```js
-mapProps(
-  propsMapper: (ownerProps: Object) => Object,
-): (props: Object) => ownerProps
+lifecycle(
+  getSpec: UnaryFn<{props, state, setState, prevProps, prevState}, Spec>
+): HigherOrderComponent
 ```
 
-Accepts a function that maps owner props to a new collection of props that are returned.
+A hook version of [`React.Component`](https://facebook.github.io/react/docs/react-api.html#react.component) common lifecycles. It supports only the `onMount`, `onUnmount`, `onUpdate`, and `shouldUpdate` lifecycles. Please note that these are _not_ the same synchronous methods that React calls. They are simulated for easier reasoning.
 
-### `makeProps()`
+Any state changes made in a lifecycle method, by using `setState`, will be propagated to the wrapped component as props.
+
+Example:
 
 ```js
-makeProps(
-  createProps: (ownerProps: Object) => Object | Object
-): (props: Object) => {...props, ...ownerProps}
+const useEnhancer = lifecycle(({ setState, props }) => ({
+    onMount() {
+        fetchPosts(props.id).then(posts => {
+            setState({ posts })
+        })
+    },
+}))
+
+function PostsList(props) {
+    // posts will start undefined
+    const { posts = [] } = useEnhancer(props)
+    return (
+        <ul>
+            {posts.map(p => (
+                <li>{p.title}</li>
+            ))}
+        </ul>
+    )
+}
 ```
 
-Like `mapProps()`, except the newly created props are merged with the owner props.
+Alternatively:
 
-Instead of a function, you can also pass a props object directly. In this form, it is similar to `defaultProps()`, except the provided props take precedence over props from the owner.
+```js
+const useEnhancer = pipe(
+    lifecycle(({ props, setState }) => ({
+        onMount() {
+            fetchPosts(props.id).then(posts => {
+                setState({ posts })
+            })
+        },
+    })),
+    // posts will be defaulted
+    defaultProps({ posts: [] }),
+)
+
+function PostsList(props) {
+    const { posts } = useEnhancer(props)
+    return (
+        <ul>
+            {posts.map(p => (
+                <li>{p.title}</li>
+            ))}
+        </ul>
+    )
+}
+```
+
+### `makeContext()`
+
+```js
+makeContext(
+Context: React.Context, contextMapper: (contextValue) => any | string
+):(props: Object) => {...props, ...contextMapper}
+```
+
+Provides context to the component. `Context` is a React.Context, and `contextMapper` provides the key or objectMap to be merged with the props.
+
+### `makeEffect()`
+
+```js
+makeEffect(effect: props => void, deps: string[]): (props: Object) => {...props}
+```
+
+Like the useEffect hook, this allows you to handle effects inside the enhancer pipe. The `deps` are a list of keys that match the props you are depending on.
+
+Example
+
+```js
+const useEnhancer = makeEffect(
+    ({ setId, id }) => {
+        setId(id)
+    },
+    ['setId', 'id'],
+)
+```
 
 ### `makeHandlers()`
 
@@ -121,144 +191,40 @@ function Component(props) {
 }
 ```
 
-### `makeEffect()`
+### `makeMemo()`
 
 ```js
-makeEffect(effect: props => void, deps: string[]): (props: Object) => {...props}
+makeMemo(
+  mapper: props => () => ({memoized: expensiveComputation()}),
+  deps: string[]
+): (props: Object) => {...props, ...mapper}
 ```
 
-Like the useEffect hook, this allows you to handle effects inside the enhancer pipe. The `deps` are a list of keys that match the props you are depending on.
-
-Example
-
-```js
-const useEnhancer = makeEffect(
-    ({ setId, id }) => {
-        setId(id)
-    },
-    ['setId', 'id'],
-)
-```
-
-### `defaultProps()`
-
-```js
-defaultProps(
-  defaultProps: Object
-): (props: Object) => {...defaultProps, ...props}
-```
-
-Specifies props to be passed by default to the base component. Similar to `makeProps()`, except the props from the owner take precedence over props provided by the component.
-
-Although it has a similar effect, using the `defaultProps()` hook is _not_ the same as setting the static `defaultProps` property directly on the component.
-
-### `renameProp()`
-
-```js
-renameProp(
-  oldName: string,
-  newName: string
-): (props: Object) => {...props, [newName]: props[oldName], [oldName]: undefined}
-```
-
-Renames a single prop.
+Wrapper over the `useMemo()` hook. Expects the mapper to return a function that returns a map of new props. Will only update if dependencies update.
 
 Example:
 
 ```js
-const useEnhancer = pipe(
-    makeProps({ loadingDataFromApi: true, posts: [] }),
-    renameProp('loadingDataFromApi', 'isLoading'),
-    renameProp('posts', 'items'),
-)
-
-function Posts(props) {
-    const { isLoading, items } = useEnhancer(props)
-    return (
-        <div>
-            <div>Loading: {isLoading ? 'yes' : 'no'}</div>
-            <ul>
-                {isLoading ||
-                    items.map(({ id, title }) => <li key={id}>{title}</li>)}
-            </ul>
-        </div>
-    )
-}
-```
-
-### `renameProps()`
-
-```js
-renameProps(
-  nameMap: { [key: string]: string }
-): (props: Object) => {...props, ...nameMap}
-```
-
-Renames multiple props, using a map of old prop names to new prop names.
-
-Example:
-
-```js
-const useEnhancer = pipe(
-    makeProps({ loadingDataFromApi: true, posts: [] }),
-    renameProps({ loadingDataFromApi: 'isLoading', posts: 'items' }),
-)
-
-function Posts(props) {
-    const { isLoading, items } = useEnhancer(props)
-    return (
-        <div>
-            <div>Loading: {isLoading ? 'yes' : 'no'}</div>
-            <ul>
-                {isLoading ||
-                    items.map(({ id, title }) => <li key={id}>{title}</li>)}
-            </ul>
-        </div>
-    )
-}
-```
-
-### `flattenProp()`
-
-```js
-flattenProp(
-  propName: string
-): HigherOrderComponent
-```
-
-Flattens a prop so that its fields are spread out into the props object.
-
-```js
-const useEnhancer = pipe(
-    makeProps({
-        object: { a: 'a', b: 'b' },
-        c: 'c',
-    }),
-    flattenProp('object'),
+const useEnhancer = makeMemo(
+    props => () => ({ totals: calculateTotals(props.items) }),
+    ['items'],
 )
 
 function Component(props) {
-    const { a, b, c, object } = useEnhancer(props)
-    // ...
+    const { totals } = useEnhancer(props)
+    //...
 }
 ```
 
-An example use case for `flattenProp()` is when receiving fragment data from Relay. Relay fragments are passed as an object of props, which you often want flattened out into its constituent fields:
+### `makeProps()`
 
 ```js
-// The `post` prop is an object with title, author, and content fields
-const useEnhancer = flattenProp('post')
-function Post(props) {
-    const { title, content, author } = useEnhancer(props)
-    return (
-        <article>
-            <h1>{title}</h1>
-            <h2>By {author.name}</h2>
-            <div>{content}</div>
-        </article>
-    )
-}
+makeProps(
+  createProps: (ownerProps: Object) => Object | Object
+): (props: Object) => {...props, ...ownerProps}
 ```
+
+Instead of a function, you can also pass a props object directly. In this form, it is similar to `defaultProps()`, except the provided props take precedence over props from the component.
 
 ### `makeState()`
 
@@ -366,78 +332,9 @@ dispatch(action: Object, ?callback: Function): void
 
 It sends an action to the reducer, after which the new state is applied. It also accepts an optional second parameter, a callback function with the new state as its only argument.
 
-### `makeContext()`
+## Utilities
 
-```js
-makeContext(
-Context: React.Context, contextMapper: (contextValue) => any | string
-):(props: Object) => {...props, ...contextMapper}
-```
-
-Provides context to the component. `Context` is a React.Context, and `contextMapper` provides the key or objectMap to be merged with the props.
-
-### `lifecycle()`
-
-```js
-lifecycle(
-  getSpec: UnaryFn<{props, state, setState, prevProps, prevState}, Spec>
-): HigherOrderComponent
-```
-
-A hook version of [`React.Component`](https://facebook.github.io/react/docs/react-api.html#react.component) common lifecycles. It supports only the `onMount`, `onUnmount`, `onUpdate`, and `shouldUpdate` lifecycles. Please note that these are _not_ the same synchronous methods that React calls. They are simulated for easier reasoning.
-
-Any state changes made in a lifecycle method, by using `setState`, will be propagated to the wrapped component as props.
-
-Example:
-
-```js
-const useEnhancer = lifecycle(({ setState, props }) => ({
-    onMount() {
-        fetchPosts(props.id).then(posts => {
-            setState({ posts })
-        })
-    },
-}))
-
-function PostsList(props) {
-    // posts will start undefined
-    const { posts = [] } = useEnhancer(props)
-    return (
-        <ul>
-            {posts.map(p => (
-                <li>{p.title}</li>
-            ))}
-        </ul>
-    )
-}
-```
-
-Alternatively:
-
-```js
-const useEnhancer = pipe(
-    lifecycle(({ props, setState }) => ({
-        onMount() {
-            fetchPosts(props.id).then(posts => {
-                setState({ posts })
-            })
-        },
-    })),
-    // posts will be defaulted
-    defaultProps({ posts: [] }),
-)
-
-function PostsList(props) {
-    const { posts } = useEnhancer(props)
-    return (
-        <ul>
-            {posts.map(p => (
-                <li>{p.title}</li>
-            ))}
-        </ul>
-    )
-}
-```
+arranger also includes some additional helpers that aren't hooks.
 
 ### `checkPropTypes()`
 
@@ -469,10 +366,6 @@ const useCounter = pipe(
 )
 ```
 
-## Utilities
-
-arranger also includes some additional helpers that aren't hooks.
-
 ### `compose()`
 
 ```js
@@ -481,6 +374,60 @@ compose(...functions: Array<Function>): Function
 
 Use to compose multiple hooks into a single hook. This flows from left to right (or bottom up).
 
+### `defaultProps()`
+
+```js
+defaultProps(
+  defaultProps: Object
+): (props: Object) => {...defaultProps, ...props}
+```
+
+Specifies props to be passed by default to the base component. Similar to `makeProps()`, except the props from the owner take precedence over props provided by the component.
+
+Although it has a similar effect, using the `defaultProps()` hook is _not_ the same as setting the static `defaultProps` property directly on the component.
+
+### `flattenProp()`
+
+```js
+flattenProp(
+  propName: string
+): HigherOrderComponent
+```
+
+Flattens a prop so that its fields are spread out into the props object.
+
+```js
+const useEnhancer = pipe(
+    makeProps({
+        object: { a: 'a', b: 'b' },
+        c: 'c',
+    }),
+    flattenProp('object'),
+)
+
+function Component(props) {
+    const { a, b, c, object } = useEnhancer(props)
+    // ...
+}
+```
+
+An example use case for `flattenProp()` is when receiving fragment data from Relay. Relay fragments are passed as an object of props, which you often want flattened out into its constituent fields:
+
+```js
+// The `post` prop is an object with title, author, and content fields
+const useEnhancer = flattenProp('post')
+function Post(props) {
+    const { title, content, author } = useEnhancer(props)
+    return (
+        <article>
+            <h1>{title}</h1>
+            <h2>By {author.name}</h2>
+            <div>{content}</div>
+        </article>
+    )
+}
+```
+
 ### `pipe()`
 
 ```js
@@ -488,3 +435,69 @@ pipe(...functions: Array<Function>): Function
 ```
 
 Use to compose multiple hooks into a single hook. This flows from right to left (or top down).
+
+### `renameProp()`
+
+```js
+renameProp(
+  oldName: string,
+  newName: string
+): (props: Object) => {...props, [newName]: props[oldName], [oldName]: undefined}
+```
+
+Renames a single prop.
+
+Example:
+
+```js
+const useEnhancer = pipe(
+    makeProps({ loadingDataFromApi: true, posts: [] }),
+    renameProp('loadingDataFromApi', 'isLoading'),
+    renameProp('posts', 'items'),
+)
+
+function Posts(props) {
+    const { isLoading, items } = useEnhancer(props)
+    return (
+        <div>
+            <div>Loading: {isLoading ? 'yes' : 'no'}</div>
+            <ul>
+                {isLoading ||
+                    items.map(({ id, title }) => <li key={id}>{title}</li>)}
+            </ul>
+        </div>
+    )
+}
+```
+
+### `renameProps()`
+
+```js
+renameProps(
+  nameMap: { [key: string]: string }
+): (props: Object) => {...props, ...nameMap}
+```
+
+Renames multiple props, using a map of old prop names to new prop names.
+
+Example:
+
+```js
+const useEnhancer = pipe(
+    makeProps({ loadingDataFromApi: true, posts: [] }),
+    renameProps({ loadingDataFromApi: 'isLoading', posts: 'items' }),
+)
+
+function Posts(props) {
+    const { isLoading, items } = useEnhancer(props)
+    return (
+        <div>
+            <div>Loading: {isLoading ? 'yes' : 'no'}</div>
+            <ul>
+                {isLoading ||
+                    items.map(({ id, title }) => <li key={id}>{title}</li>)}
+            </ul>
+        </div>
+    )
+}
+```

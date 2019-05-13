@@ -38,7 +38,7 @@ arranger helpers are designed to be composable. It maintains much of the pattern
 const BaseComponent = props => {...}
 
 const enhance = compose(
-  makeState(/*...args*/),
+  withState(/*...args*/),
   mapProps(/*...args*/),
   pure
 )

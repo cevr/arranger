@@ -1,7 +1,7 @@
-/**
- * @param {Function} fn
- * @returns {Object}
- */
-const mapProps = fn => (props = {}) => fn(props)
+import { useMemo } from 'react'
+
+const mapProps = fn => (props = {}) => {
+    return useMemo(() => fn(props), [fn, props])
+}
 
 export default mapProps

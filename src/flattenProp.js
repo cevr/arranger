@@ -1,10 +1,13 @@
-/**
- * @param {string|symbol} propName
- * @returns {Object}
- */
-const flattenProp = propName => (props = {}) => ({
-    ...props,
-    ...props[propName],
-})
+import { useMemo } from 'react'
+
+const flattenProp = propName => (props = {}) => {
+    return useMemo(
+        () => ({
+            ...props,
+            ...props[propName],
+        }),
+        [props, propName],
+    )
+}
 
 export default flattenProp

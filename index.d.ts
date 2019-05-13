@@ -226,7 +226,7 @@ declare interface Self<Props, State> {
 
 declare type GetSpec<Props, State> = (self: Self<Props, State>) => Spec
 
-declare type UnaryFn<A, R> = (a: A) => R
+declare type UnaryFn<Props, Mapped> = (props: Props) => Mapped
 
 export function lifecycle<Props, Enhanced>(
     getSpec: GetSpec<Props, Enhanced>,

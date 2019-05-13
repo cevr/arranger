@@ -1,7 +1,19 @@
-const makeHook = mapper => (props = {}) => {
-    const mapped = typeof mapper === 'function' ? mapper(props) : mapper
+import { useMemo } from 'react'
 
-    return { ...props, ...mapped }
+import isFunction from './utils/isFunction'
+
+const makeHook = mapper => (props = {}) => {
+    const mapped = useMemo(
+        () => (isFunction(mapper) ? mapper(props) : mapper),
+        [props],
+    )
+
+    const enhancedProps = useMemo(() => ({ ...props, ...mapped }), [
+        props,
+        mapped,
+    ])
+
+    return enhancedProps
 }
 
 export default makeHook

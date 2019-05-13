@@ -6,7 +6,7 @@ const makeEffect = (effect, deps) => (props = {}) => {
     const effectDeps = pick(deps, props)
     useEffect(() => effect(props), effectDeps)
 
-    return { ...props }
+    return props
 }
 
 export default makeEffect

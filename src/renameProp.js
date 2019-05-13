@@ -1,14 +1,16 @@
-/**
- * @param {string|symbol} initialProp
- * @param {string|symbol} renamedProp
- * @returns {Object}
- */
+import { useMemo } from 'react'
+
 const renameProp = (initialProp, renamedProp) => ({
     [initialProp]: prop,
     ...props
-} = {}) => ({
-    ...props,
-    [renamedProp]: prop,
-})
+} = {}) => {
+    return useMemo(
+        () => ({
+            ...props,
+            [renamedProp]: prop,
+        }),
+        [initialProp, renamedProp, props],
+    )
+}
 
 export default renameProp

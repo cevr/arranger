@@ -1,5 +1,7 @@
 import { useContext, useMemo } from 'react'
 
+import isFunction from './utils/isFunction'
+
 /**
  * Adds the consumed Context into the enhanced Props. By default it is mapped to `contextValue`
  * @param {React.Context} context
@@ -12,7 +14,7 @@ const makeContext = (context, propMapper) => (props = {}) => {
     const mappedContext = useMemo(
         () =>
             // eslint-disable-next-line
-            typeof propMapper === 'function'
+            isFunction(propMapper)
                 ? propMapper(contextValue)
                 : typeof propMapper === 'string'
                 ? { [propMapper]: contextValue }
@@ -20,7 +22,12 @@ const makeContext = (context, propMapper) => (props = {}) => {
         [contextValue],
     )
 
-    return { ...props, ...mappedContext }
+    const enhancedProps = useMemo(() => ({ ...props, ...mappedContext }), [
+        props,
+        mappedContext,
+    ])
+
+    return enhancedProps
 }
 
 export default makeContext

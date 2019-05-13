@@ -1,11 +1,7 @@
 import { useReducer, useMemo } from 'react'
 
-/**
- * @param {string|symbol} stateName
- * @param {string|symbol} dispatchName
- * @param {Function} reducer
- * @param {any} initialState
- */
+import isFunction from './utils/isFunction'
+
 const makeReducer = (
     stateName,
     dispatchName,
@@ -13,15 +9,24 @@ const makeReducer = (
     initialState,
     initialAction,
 ) => props => {
-    const [state, dispatch] = useReducer(
+    const [rawState, rawDispatch] = useReducer(
         reducer,
-        typeof initialState === 'function'
+        isFunction(initialState)
             ? useMemo(() => initialState(props), [])
             : initialState,
         initialAction,
     )
 
-    return { ...props, [stateName]: state, [dispatchName]: dispatch }
+    const { state, dispatch } = useMemo(() => ({
+        state: rawState,
+        dispatch: rawDispatch,
+    }))
+
+    const enhancedProps = useMemo(
+        () => ({ ...props, [stateName]: state, [dispatchName]: dispatch }),
+        [props, state, dispatch],
+    )
+    return enhancedProps
 }
 
 export default makeReducer

@@ -1,16 +1,15 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
+
+import isFunction from './utils/isFunction'
 import useLegacyState from './utils/useLegacyState'
 import usePrevious from './utils/usePrevious'
-/**
- * Note: shouldComponentUpdate does not prevent rerenders.
- * It prevents componentDidUpdate from being called next render
- * @param {} getSpec
- * @returns {Object}
- */
+
 const lifecycle = getSpec => (props = {}) => {
-    const [state, setState] = useLegacyState({})
+    const [rawState, setState] = useLegacyState({})
     const previousProps = usePrevious(props) || {}
-    const previousState = usePrevious(state) || {}
+    const previousState = usePrevious(rawState) || {}
+
+    const state = useMemo(() => rawState, [rawState])
 
     const self = {
         props,
@@ -20,21 +19,27 @@ const lifecycle = getSpec => (props = {}) => {
         prevState: previousState,
     }
     const spec = getSpec(self)
-    const shouldUpdate =
-        typeof spec.shouldUpdate === 'function' ? spec.shouldUpdate() : true
+    const shouldUpdate = isFunction(spec.shouldUpdate)
+        ? spec.shouldUpdate()
+        : true
 
     useEffect(() => {
-        if (typeof spec.onMount === 'function') spec.onMount()
+        if (isFunction(spec.onMount)) spec.onMount()
         return () => {
-            if (typeof spec.onUnmount === 'function') spec.onUnmount()
+            if (isFunction(spec.onUnmount)) spec.onUnmount()
         }
     }, [])
 
     useEffect(() => {
-        if (shouldUpdate && typeof spec.onUpdate === 'function') spec.onUpdate()
+        if (shouldUpdate && isFunction(spec.onUpdate)) spec.onUpdate()
     })
 
-    return { ...props, ...state }
+    const enhancedProps = useMemo(() => ({ ...props, ...state }), [
+        props,
+        state,
+    ])
+
+    return enhancedProps
 }
 
 export default lifecycle

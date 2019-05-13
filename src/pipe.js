@@ -1,3 +1,4 @@
-const pipe = (...fns) => (props = {}) => fns.reduce((v, f) => f(v), props)
+const pipe = (...enhancers) => (props = {}) =>
+    enhancers.reduce((propObj, enhancer) => enhancer(propObj), props)
 
 export default pipe

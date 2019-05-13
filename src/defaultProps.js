@@ -1,10 +1,7 @@
-/**
- * @param {Object} default
- * @returns {Object}
- */
-const defaultProps = defaulted => (props = {}) => ({
-    ...defaulted,
-    ...props,
-})
+import { useMemo } from 'react'
+
+const defaultProps = defaulted => (props = {}) => {
+    return useMemo(() => ({ ...defaulted, ...props }), [defaulted, props])
+}
 
 export default defaultProps

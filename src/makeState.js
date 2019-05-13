@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
+
+import isFunction from './utils/isFunction'
 
 /**
  * @param {string|symbol} stateName
@@ -8,17 +10,28 @@ import { useState } from 'react'
 const makeState = (stateName, stateUpdaterName, initialState) => (
     props = {},
 ) => {
-    const [state, update] = useState(
-        typeof initialState === 'function'
-            ? () => initialState(props)
-            : initialState,
+    const [rawState, rawSetState] = useState(
+        isFunction(initialState) ? () => initialState(props) : initialState,
     )
 
-    return {
-        ...props,
-        [stateName]: state,
-        [stateUpdaterName]: update,
-    }
+    const { state, setState } = useMemo(
+        () => ({
+            state: rawState,
+            setState: rawSetState,
+        }),
+        [rawState],
+    )
+
+    const enhancedProps = useMemo(
+        () => ({
+            ...props,
+            [stateName]: state,
+            [stateUpdaterName]: setState,
+        }),
+        [props, state, setState],
+    )
+
+    return enhancedProps
 }
 
 export default makeState

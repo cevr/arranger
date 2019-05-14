@@ -3,18 +3,11 @@ import { useMemo } from 'react'
 import mapValues from './utils/mapValues'
 import isFunction from './utils/isFunction'
 
-/**
- * @param {Object} handlers
- * @returns {Object}
- */
 const makeHandlers = handlers => (props = {}) => {
-    const realHandlers = useMemo(
-        () => (isFunction(handlers) ? handlers(props) : handlers),
-        [props],
-    )
-    const boundHandlers = useMemo(
-        () =>
-            mapValues(realHandlers, createHandler => (...args) => {
+    const boundHandlers = mapValues(
+        handlers,
+        useMemo(
+            () => createHandler => (...args) => {
                 const handler = createHandler(props)
                 if (args[0] && isFunction(args[0].persist)) {
                     args[0].persist()
@@ -31,8 +24,9 @@ const makeHandlers = handlers => (props = {}) => {
                 }
 
                 return handler(...args)
-            }),
-        [props],
+            },
+            [props],
+        ),
     )
 
     const enhancedProps = useMemo(() => ({ ...props, ...boundHandlers }), [

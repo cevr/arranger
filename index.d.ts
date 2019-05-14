@@ -241,7 +241,7 @@ export function defaultProps<Props, Enhanced>(
     defaultProps: Enhanced,
 ): (props: Props) => Props & Enhanced
 
-export function makeHandlers<Props, Handlers>(
+export function makeHandlers<Props, Handlers extends Object>(
     handlers: Handlers,
 ): (props: Props) => Props & Handlers
 

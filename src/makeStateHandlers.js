@@ -17,16 +17,16 @@ const makeStateHandlers = (initialValue, handlers) => (props = {}) => {
         [rawState],
     )
 
-    const boundHandlers = useMemo(
-        () =>
-            mapValues(handlers, handler => (...args) => {
-                // Having that functional form of setState can be called async`
-                // we need to persist SyntheticEvent
-                if (args[0] && isFunction(args[0].persist)) {
-                    args[0].persist()
-                }
-                setState(currentState => handler(currentState, props)(...args))
-            }),
+    const boundHandlers = mapValues(
+        handlers,
+        useMemo(() => handler => (...args) => {
+            // Having that functional form of setState can be called async`
+            // we need to persist SyntheticEvent
+            if (args[0] && isFunction(args[0].persist)) {
+                args[0].persist()
+            }
+            setState(currentState => handler(currentState, props)(...args))
+        }),
         [props],
     )
 

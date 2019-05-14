@@ -121,10 +121,7 @@ const useEnhancer = makeEffect(
 
 ```js
 makeHandlers(
-  handlerCreators: {
-    [handlerName: string]: (props: Object) => Function
-  } |
-  handlerCreatorsFactory: (initialProps) => {
+  handlers: {
     [handlerName: string]: (props: Object) => Function
   }
 ): (props: Object) => {...props, ...handlers}
@@ -134,20 +131,23 @@ Takes an object map of handler creators or a factory function. These are higher-
 
 This allows the handler to access the current props via closure, without needing to change its signature.
 
-Handlers are merged into the enhanced props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality. This is the main reason to use `makeHandlers` to create handlers instead of using `mapProps` or `makeProps`, which will create new handlers every time when it get updated.
+Handlers are merged into the enhanced props, whose identities are preserved across renders. This avoids a common pitfall where functional components create handlers inside the body of the function, which results in a new handler on every render and breaks downstream `shouldComponentUpdate()` optimizations that rely on prop equality.
 
 Usage example:
 
 ```js
 const useEnhancer = pipe(
-    makeState('value', 'updateValue', ''),
+    makeState('values', 'setValues', {}),
     makeHandlers({
         onChange: props => event => {
-            props.updateValue(event.target.value)
+            props.setValues(values => ({
+                ...values,
+                [event.target.name]: event.target.value,
+            }))
         },
         onSubmit: props => event => {
             event.preventDefault()
-            submitForm(props.value)
+            submitForm(props.values)
         },
     }),
 )
@@ -158,7 +158,12 @@ function Form(props) {
         <form onSubmit={onSubmit}>
             <label>
                 Value
-                <input type="text" value={value} onChange={onChange} />
+                <input
+                    type="text"
+                    name="email"
+                    value={value}
+                    onChange={onChange}
+                />
             </label>
         </form>
     )

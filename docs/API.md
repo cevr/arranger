@@ -10,6 +10,7 @@ While some of these hooks are not actually hooks, their purpose is to compose to
     -   [`makeHook()`](#makeHook)
     -   [`makeMemo()`](#makeMemo)
     -   [`makeProps()`](#makeProps)
+    -   [`makeRef()`](#makeRef)
     -   [`makeState()`](#makeState)
     -   [`makeStateHandlers()`](#makeStateHandlers)
     -   [`makeReducer()`](#makeReducer)
@@ -225,6 +226,17 @@ makeProps(
 ```
 
 Instead of a function, you can also pass a props object directly. In this form, it is similar to `defaultProps()`, except the provided props take precedence over props from the component.
+
+### `makeRef()`
+
+```js
+makeRef(
+  refName: string,
+  initialValue: any | (props) => any
+): (props: Object) => {...props, ...[refName]: ref}
+```
+
+Wrapper for the useRef hook.
 
 ### `makeState()`
 

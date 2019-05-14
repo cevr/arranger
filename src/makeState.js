@@ -2,11 +2,6 @@ import { useState, useMemo } from 'react'
 
 import isFunction from './utils/isFunction'
 
-/**
- * @param {string|symbol} stateName
- * @param {string|symbol} stateUpdaterName
- * @param {any} initialState
- */
 const makeState = (stateName, stateUpdaterName, initialState) => (
     props = {},
 ) => {

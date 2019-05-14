@@ -6,7 +6,7 @@ import makeEffect from '../makeEffect'
 import makeState from '../makeState'
 import pipe from '../pipe'
 
-test('useEffect', () => {
+test('makeEffect', () => {
     const func = jest.fn()
     const useEnhancer = pipe(
         makeState('test', 'updateTest', 0),

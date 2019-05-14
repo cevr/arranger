@@ -310,3 +310,8 @@ export function makeMemo<Props, Mapped>(
     mapper: UnaryFn<Props, UnaryFn<any, Mapped>> | UnaryFn<any, Mapped>,
     deps: string[],
 ): (props: Props) => Props & Mapped
+
+export function makeRef<Props, Ref>(
+    refName: string,
+    initialValue: Ref | UnaryFn<Props, Ref>,
+): (props: Props) => Props & Ref

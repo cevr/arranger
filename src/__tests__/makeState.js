@@ -3,7 +3,7 @@
 import testWrapper from '../utils/testWrapper'
 import makeState from '../makeState'
 
-test('usestate', () => {
+test('makeState', () => {
     const wrapper = testWrapper(makeState('state', 'setState', 0))
 
     expect(wrapper.getProps().state).toEqual(0)

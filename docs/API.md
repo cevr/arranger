@@ -349,6 +349,43 @@ dispatch(action: Object, ?callback: Function): void
 
 It sends an action to the reducer, after which the new state is applied. It also accepts an optional second parameter, a callback function with the new state as its only argument.
 
+Example:
+
+```js
+const useReducer = makeReducer(
+    'state',
+    'dispatch',
+    (state, action) => {
+        switch (action) {
+            case 'ADD':
+                return { ...state, count: state.count + 1 }
+            case 'SUBTRACT':
+                return { ...state, count: state.count - 1 }
+            default:
+                return state
+        }
+    },
+    // optional initialState
+    props => ({
+        count: props.count,
+    }),
+    // optional initialAction
+    'ADD',
+)
+
+function Component(props) {
+    const { state, dispatch } = useReducer(props)
+
+    return (
+        <div>
+            <button onClick={() => dispatch('ADD')}>+</button>
+            <span>{state.count}</span>
+            <button onClick={() => dispatch('SUBTRACT')}>-</button>
+        </div>
+    )
+}
+```
+
 ## Utilities
 
 arranger also includes some additional helpers that aren't hooks.

@@ -1,3 +1,5 @@
+import React from 'react'
+
 export function compose<V0, T1>(fn0: (x0: V0) => T1): (x0: V0) => T1
 
 export function compose<V0, V1, T1>(

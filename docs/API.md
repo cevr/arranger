@@ -179,7 +179,7 @@ makeMatch(
 ): (props: Object) => { ...props, [propKey | 'match']: matchWith keyof patternMapper => match}
 ```
 
-Specify a match pattern that will be used for returning whatever type is a match. It will only return one match. It is useful for rendering when there are many conditions.
+Specify a match pattern that will be used for returning a type match. It will only return one match. If none are found, it will return `null`. It is useful for rendering when there are many conditions.
 
 Example:
 
@@ -222,7 +222,9 @@ function Component(props) {
                 <span>{value}</span>
             )}
             {matchAction({
-                edit: () => <button>Edit</button>,
+                edit: () => (
+                    <button onClick={() => setIsEditing(true)}>Edit</button>
+                ),
                 save: () => <button>Save</button>,
                 cancel: () => <button>Cancel</button>,
             })}

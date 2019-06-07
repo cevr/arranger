@@ -289,19 +289,15 @@ interface StateHandlers<State, Props> {
     ) => (...payload: any[]) => State & Props
 }
 
-export function makeStateHandlers<State, Props, Handlers>(
+export function makeStateHandlers<State, Props>(
     initialState: State | UnaryFn<Props, State>,
-    stateHandlers: Handlers,
-): (props: Props) => State & Props & Handlers
+    stateHandlers: StateHandlers,
+): (props: Props) => State & Props & StateHandlers
 
 export function checkPropTypes<Props>(
     propTypes: React.ReactPropTypes,
     componentName: string,
 ): (props: Props) => Props
-
-export function makeHook<Props, Enhanced>(
-    hookMapper: Enhanced | UnaryFn<Props, Enhanced>,
-): (props: Props) => Props & Enhanced
 
 export function makeEffect<Props, Effect>(
     effect: UnaryFn<Props, Effect>,
@@ -317,3 +313,8 @@ export function makeRef<Props, Ref>(
     refName: string,
     initialValue: Ref | UnaryFn<Props, Ref>,
 ): (props: Props) => Props & Ref
+
+export function makeMatch<Props, MatchMap, Match, Matched>(
+    patternMapper: UnaryFn<Props, MatchMap>,
+    propKey: string,
+): (props: Props) => Props & UnaryFn<Match, Matched>

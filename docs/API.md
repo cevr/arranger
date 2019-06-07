@@ -7,7 +7,7 @@ While some of these hooks are not actually hooks, their purpose is to compose to
     -   [`makeContext()`](#makeContext)
     -   [`makeEffect()`](#makeEffect)
     -   [`makeHandlers()`](#makeHandlers)
-    -   [`makeHook()`](#makeHook)
+    -   [`makeMatch()`](#makeMatch)
     -   [`makeMemo()`](#makeMemo)
     -   [`makeProps()`](#makeProps)
     -   [`makeRef()`](#makeRef)
@@ -170,30 +170,64 @@ function Form(props) {
 }
 ```
 
-### `makeHook()`
+### `makeMatch()`
 
 ```js
-makeHook(
-  hookMapper: (props) => mappedProps
-): (props: Object) => {...mappedProps, ...props}
+makeMatch(
+  patternMapper: (props) => matchPattern,
+  propKey?: string
+): (props: Object) => { ...props, [propKey | 'match']: matchWith keyof patternMapper => match}
 ```
 
-Specify a mapper function that can contain other hooks, then integrate the return of the hook into the props object.
+Specify a match pattern that will be used for returning whatever type is a match. It will only return one match. It is useful for rendering when there are many conditions.
 
 Example:
 
 ```js
 const useEnhancer = pipe(
-    makeState('selection', 'setSelection', []),
-    makeHook(props => {
-        const users = useStore(state => state.users)
-        return { users }
-    }),
+    makeState('inputValue', 'setInputValue', props => props.value),
+    makeState('isEditing', 'setIsEditing', false),
+    makeProps(props => ({
+        canCommit: isFunction(props.validate)
+            ? props.validate(props.inputValue)
+            : validate(props.value, props.inputValue),
+    })),
+    makeMatch(
+        props => ({
+            edit: !props.isEditing,
+            save: props.isEditing && props.canCommit,
+            cancel: props.isEditing && !props.canCommit,
+        }),
+        'matchAction',
+    ),
 )
 
 function Component(props) {
-    const { selection, users } = useEnhancer(props)
-    //...
+    const {
+        inputValue,
+        value,
+        matchAction,
+        isEditing,
+        setIsEditing,
+    } = useEnhancer(props)
+
+    return (
+        <div>
+            {isEditing ? (
+                <input
+                    value={inputValue}
+                    onChange={e => setInputValue(e.target.value)}
+                />
+            ) : (
+                <span>{value}</span>
+            )}
+            {matchAction({
+                edit: () => <button>Edit</button>,
+                save: () => <button>Save</button>,
+                cancel: () => <button>Cancel</button>,
+            })}
+        </div>
+    )
 }
 ```
 

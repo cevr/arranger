@@ -9,6 +9,8 @@ const makeHandlers = handlers => (props = {}) => {
         useMemo(
             () => createHandler => (...args) => {
                 const handler = createHandler(props)
+                // incase state is set in the handler
+                // we need to persist SyntheticEvent
                 if (args[0] && isFunction(args[0].persist)) {
                     args[0].persist()
                 }
@@ -16,8 +18,7 @@ const makeHandlers = handlers => (props = {}) => {
                     process.env.NODE_ENV !== 'production' &&
                     !isFunction(handler)
                 ) {
-                    // eslint-disable-next-line no-console
-                    console.error(
+                    throw new Error(
                         'makeHandlers(): Expected a map of higher-order functions. ' +
                             'Refer to the docs for more info.',
                     )

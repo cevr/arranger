@@ -227,6 +227,9 @@ function Component(props) {
                 ),
                 save: () => <button>Save</button>,
                 cancel: () => <button>Cancel</button>,
+                // if no matches are found, it automatically returns null
+                // you can be explicit however
+                _: () => null,
             })}
         </div>
     )

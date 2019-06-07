@@ -291,8 +291,8 @@ interface StateHandlers<State, Props> {
 
 export function makeStateHandlers<State, Props>(
     initialState: State | UnaryFn<Props, State>,
-    stateHandlers: StateHandlers,
-): (props: Props) => State & Props & StateHandlers
+    stateHandlers: StateHandlers<State, Props>,
+): (props: Props) => State & Props & StateHandlers<State, Props>
 
 export function checkPropTypes<Props>(
     propTypes: React.ReactPropTypes,
@@ -316,5 +316,5 @@ export function makeRef<Props, Ref>(
 
 export function makeMatch<Props, MatchMap, Match, Matched>(
     patternMapper: UnaryFn<Props, MatchMap>,
-    propKey: string,
+    propKey?: string,
 ): (props: Props) => Props & UnaryFn<Match, Matched>

@@ -288,15 +288,16 @@ Wrapper for the useRef hook.
 makeState(
   stateName: string,
   stateUpdaterName: string,
-  initialState: any | (props: Object) => any
+  initialState: any | (props: Object) => any,
+  config: { memo: boolean = false}
 ): (props: Object) => {...props, [stateName]: initalState, stateUpdaterName}
 ```
 
 Passes two additional props to the base component: a state value, and a function to update that state value. The state updater has the following signature:
 
 ```js
-stateUpdater<T>((prevValue: T) => T, ?callback: Function): void
-stateUpdater(newValue: any, ?callback: Function): void
+stateUpdater<T>((prevValue: T) => T): void
+stateUpdater(newValue: any): void
 ```
 
 The first form accepts a function which maps the previous state value to a new state value. You'll likely want to use this state updater along with `makeHandlers()` to create specific updater functions. For example, to create a hook that adds basic counting functionality to a component:
@@ -318,6 +319,12 @@ Both forms accept an optional second parameter, a callback function that will be
 
 An initial state value is required. It can be either the state value itself, or a function that returns an initial state given the initial props.
 
+By default, the initialState is not memoized. Here is how to memoize:
+
+```js
+makeState('count', 'setCount', props => expensive(props.value), { memo: true })
+```
+
 ### `makeStateHandlers()`
 
 ```js
@@ -325,6 +332,9 @@ makeStateHandlers(
   initialState: Object | (props: Object) => Object,
   stateHandlers: {
     [key: string]: (state:Object, props:Object) => (...payload: any[]) => Object
+  },
+  config: {
+    memo: boolean = false
   }
 ): (props: Object) => { ...props, ...initialState, ...stateHandlers }
 
@@ -365,6 +375,20 @@ function Counter(props) {
         </div>
     )
 }
+```
+
+By default, the initialState is not memoized. Here is how to memoize:
+
+```js
+makeState(
+    ({ initialCounter }) => ({
+        initialCounter: expensive(initialCounter),
+    }),
+    {
+        /// handlers
+    },
+    { memo: true },
+)
 ```
 
 ### `makeReducer()`

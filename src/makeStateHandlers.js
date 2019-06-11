@@ -4,9 +4,17 @@ import useLegacyState from './utils/useLegacyState'
 import isFunction from './utils/isFunction'
 import mapValues from './utils/mapValues'
 
-const makeStateHandlers = (initialValue, handlers) => (props = {}) => {
+const makeStateHandlers = (initialValue, handlers, { memo = false } = {}) => (
+    props = {},
+) => {
     const [rawState, rawSetState] = useLegacyState(
-        isFunction(initialValue) ? () => initialValue(props) : initialValue,
+        // eslint-disable-next-line
+        memo
+            ? () =>
+                  isFunction(initialValue) ? initialValue(props) : initialValue
+            : isFunction(initialValue)
+            ? initialValue(props)
+            : initialValue,
     )
 
     const { state, setState } = useMemo(

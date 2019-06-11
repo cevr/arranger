@@ -280,6 +280,7 @@ export function makeState<Props, State>(
     stateName: string,
     stateUpdaterName: string,
     initialState: State | UnaryFn<Props, State>,
+    config?: { memo: boolean = false },
 ): (props: Props) => Props & State
 
 interface StateHandlers<State, Props> {
@@ -292,6 +293,9 @@ interface StateHandlers<State, Props> {
 export function makeStateHandlers<State, Props>(
     initialState: State | UnaryFn<Props, State>,
     stateHandlers: StateHandlers<State, Props>,
+    config?: {
+        memo: boolean = false
+    },
 ): (props: Props) => State & Props & StateHandlers<State, Props>
 
 export function checkPropTypes<Props>(

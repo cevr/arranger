@@ -34,13 +34,25 @@ test('makeStateHandlers calling undefined', () => {
 })
 
 test('makeStateHandlers memo', () => {
+    let called = 0
     const wrapper = testWrapper(
-        makeStateHandlers(() => ({ b: false }), {
-            handle: () => ({ b }) => ({ b }),
-        }),
+        makeStateHandlers(
+            () => {
+                called++
+                return { b: false }
+            },
+            {
+                handle: () => ({ b }) => ({ b }),
+            },
+            { memo: true },
+        ),
         {},
     )
 
     wrapper.getProps().handle({ b: true })
     expect(wrapper.getProps().b).toEqual(true)
+    expect(called).toBe(1)
+    wrapper.getProps().handle({ b: false })
+    expect(wrapper.getProps().b).toEqual(false)
+    expect(called).toBe(1)
 })

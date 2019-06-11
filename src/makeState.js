@@ -2,11 +2,20 @@ import { useState, useMemo } from 'react'
 
 import isFunction from './utils/isFunction'
 
-const makeState = (stateName, stateUpdaterName, initialState) => (
-    props = {},
-) => {
+const makeState = (
+    stateName,
+    stateUpdaterName,
+    initialState,
+    { memo = false } = {},
+) => (props = {}) => {
     const [rawState, rawSetState] = useState(
-        isFunction(initialState) ? () => initialState(props) : initialState,
+        // eslint-disable-next-line
+        memo
+            ? () =>
+                  isFunction(initialState) ? initialState(props) : initialState
+            : isFunction(initialState)
+            ? initialState(props)
+            : initialState,
     )
 
     const { state, setState } = useMemo(

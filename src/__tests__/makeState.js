@@ -11,13 +11,18 @@ test('makeState', () => {
     expect(wrapper.getProps().state).toEqual(1)
 })
 
-test('initializer is called once', () => {
+test('initializer is called once if memoed', () => {
     let called = 0
     const wrapper = testWrapper(
-        makeState('state', 'setState', () => {
-            called++
-            return 0
-        }),
+        makeState(
+            'state',
+            'setState',
+            () => {
+                called++
+                return 0
+            },
+            { memo: true },
+        ),
     )
 
     expect(wrapper.getProps().state).toBe(0)
